@@ -71,6 +71,12 @@ kotlin {
 
         androidMain {
             dependencies {
+                val nav_version = "2.9.7"
+                implementation("androidx.navigation:navigation-compose:$nav_version")
+
+                implementation(libs.coil.compose)
+                implementation(libs.coil.network)
+
                 // Add Android-specific dependencies here. Note that this source set depends on
                 // commonMain by default and will correctly pull the Android artifacts of any KMP
                 // dependencies declared in commonMain.
