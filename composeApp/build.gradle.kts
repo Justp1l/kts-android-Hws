@@ -1,5 +1,7 @@
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -31,6 +33,8 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            // Coil
+            implementation(libs.coil.network.okHttp)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -38,12 +42,33 @@ kotlin {
             implementation(libs.compose.material3)
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
-            implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            //Navigation https://developer.android.com/develop/ui/compose/navigation#kts
+            implementation(libs.compose.navigation)
+
+            //Compose UI Preview https://kotlinlang.org/docs/multiplatform/compose-previews.html#preview-setup
+            implementation(libs.compose.uiToolingPreview)
+            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
+
+            //ViewModel https://developer.android.com/kotlin/multiplatform/viewmodel
+            api(libs.androidx.lifecycle.viewmodel)
+            // Icons
+            implementation(libs.material.icons.core)
+            // Coil
+            implementation(libs.coil.compose)
+
+        }
+        iosMain.dependencies {
+            implementation(libs.coil.network.ktor)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.kotlinx.coroutinesSwing)
         }
     }
 }
@@ -76,13 +101,13 @@ android {
 }
 
 dependencies {
-    //Navigation https://developer.android.com/develop/ui/compose/navigation#kts
-    val nav_version = "2.9.7"
-    implementation("androidx.navigation:navigation-compose:$nav_version")
-
     implementation(libs.coil.compose)
-    implementation(libs.coil.network)
+//    implementation(libs.coil.network)
+
+    implementation(libs.compose.navigation)
 
     debugImplementation(libs.compose.uiTooling)
+    // Compose UI preview https://kotlinlang.org/docs/multiplatform/compose-previews.html#supported-configurations
+    debugImplementation("org.jetbrains.compose.ui:ui-tooling:1.10.0")
 }
 

@@ -1,4 +1,4 @@
-package org.example.project.screens
+package org.example.project.cmp.feature.onBoard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,26 +12,29 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.Image
+import coil3.ImageLoader
 import coil3.compose.AsyncImage
-import org.example.project.R
+import coil3.request.ImageRequest
+import kts_hw2.composeapp.generated.resources.Res
+import kts_hw2.composeapp.generated.resources.bad_script_regular
+import kts_hw2.composeapp.generated.resources.img_1
+import kts_hw2.composeapp.generated.resources.photo
+import org.jetbrains.compose.resources.Font
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun GreetingScreen(
     onNavigateToLogin: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // var showContent by remember { mutableStateOf(false) }
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Box(
             modifier = modifier
@@ -50,12 +53,17 @@ fun GreetingScreen(
                     contentScale = ContentScale.Crop,
                     model = "https://s0.rbk.ru/v6_top_pics/media/img/7/75/347472273420757.jpeg",
                     contentDescription = "LegendaryMem",
-                    placeholder = painterResource(R.drawable.img_1),
-                    error = painterResource(R.drawable.img)
+                    placeholder = painterResource(Res.drawable.img_1),
+                    error = painterResource(Res.drawable.photo),
+                    onError = { state ->
+                        println("Coil error: ${state.result.throwable}")
+                    },
                 )
-                
-                Column(modifier = Modifier.padding(5.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally) {
+
+                Column(
+                    modifier = Modifier.padding(5.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Button(
                         onClick = onNavigateToLogin,
                         content = {
@@ -66,18 +74,14 @@ fun GreetingScreen(
                     Text(
                         modifier = Modifier,
                         text = "Данное приложение было сделано студентом Вединым Дмитрием специально для курса \"Начинающий Android-разработчик\" от KTS",
-                        fontFamily = FontFamily(Font(R.font.bad_script_regular)),
+                        fontFamily = FontFamily(Font(Res.font.bad_script_regular)),
                         fontSize = 20.sp
-
                     )
-
                 }
-
             }
         }
     }
 }
-
 
 @Composable
 @Preview(showBackground = true)
