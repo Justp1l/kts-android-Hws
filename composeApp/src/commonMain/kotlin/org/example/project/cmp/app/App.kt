@@ -48,9 +48,10 @@ private fun RootNavHost(navController: NavHostController = rememberNavController
                 },
                 onNavigateToMainScreen = {
                     navController.navigate(route = Destination.Main) {
-                        popUpTo<Destination.Login> {
+                        popUpTo<Destination.Greet> {
                             inclusive = true
                         }
+                        restoreState = true
                     }
                 }
             )

@@ -114,7 +114,6 @@ fun LoginScreen(
 }
 
 @Composable
-
 fun LoginContent(
     state: LoginUIState,
     annotation: AnnotatedString,
@@ -128,7 +127,7 @@ fun LoginContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
-           HeaderSection()
+            HeaderSection()
             Spacer(Modifier.padding(10.dp))
             Box(
                 modifier = Modifier.fillMaxWidth(),
@@ -142,12 +141,14 @@ fun LoginContent(
 
                     ) {
                     LoginField(
-                        state = state,
+                        login = state.username,
+                        enabled = !state.isLoginButtonActive,
                         onUsernameChange = onUsernameChange
                     )
                     Spacer(Modifier.padding(10.dp))
                     PasswordField(
-                        state = state,
+                        password = state.password,
+                        enabled = !state.isLoginButtonActive,
                         onValueChange = onPasswordChange
                     )
                     Spacer(Modifier.padding(20.dp))
@@ -205,16 +206,19 @@ fun HeaderSection() {
 }
 
 @Composable
-fun LoginField(state: LoginUIState,
-               onUsernameChange: (String) -> Unit) {
+fun LoginField(
+    login: String,
+    enabled: Boolean,
+    onUsernameChange: (String) -> Unit
+) {
     TextField(
-        value = state.username,
+        value = login,
         onValueChange = onUsernameChange,
         placeholder = { Text(text = "Login", textAlign = TextAlign.Center) },
         label = { Text("Email") },
         singleLine = true,
-        isError = state.error,
-        enabled = !state.isLoginButtonActive,
+        //isError = state.error,
+        enabled = enabled,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Transparent,
@@ -227,15 +231,17 @@ fun LoginField(state: LoginUIState,
 
         )
 }
+
 @Composable
 fun PasswordField(
-    state: LoginUIState,
+    password: String,
+    enabled: Boolean,
     onValueChange: (String) -> Unit
 ) {
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     OutlinedTextField(
-        value = state.password,
+        value = password,
         onValueChange = onValueChange,
         //label = { Text(text = "Password") },
         placeholder = { Text(text = "Password", textAlign = TextAlign.Center) },
@@ -244,6 +250,7 @@ fun PasswordField(
             .padding(),
         visualTransformation = if (passwordVisible) VisualTransformation.None
         else PasswordVisualTransformation(),
+        enabled = enabled,
         trailingIcon = {
             IconButton(
                 onClick = { passwordVisible = !passwordVisible }
@@ -264,7 +271,8 @@ fun PasswordField(
 fun PasswordPreview() {
     MaterialTheme {
         PasswordField(
-            state = LoginUIState.initial,
+            password = "",
+            enabled = true,
             onValueChange = {}
         )
     }
