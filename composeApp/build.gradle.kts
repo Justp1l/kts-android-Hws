@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+
+    kotlin("plugin.serialization") version libs.versions.kotlin
 }
 
 kotlin {
@@ -74,6 +76,13 @@ android {
 }
 
 dependencies {
+    //Navigation https://developer.android.com/develop/ui/compose/navigation#kts
+    val nav_version = "2.9.7"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network)
+
     debugImplementation(libs.compose.uiTooling)
 }
 
