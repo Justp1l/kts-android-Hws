@@ -15,13 +15,9 @@ import kotlinx.serialization.Serializable
 import org.example.project.screens.GreetingScreen
 import org.example.project.screens.LoginScreen
 
-@Serializable
-data class Greet(var name: String = "")
-
-@Serializable
-object Login
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -29,22 +25,22 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             NavHost(
                 navController = navController,
-                startDestination = Greet()
+                startDestination = Destination.Greet()
             ) {
-                composable<Greet> { backStackEntry ->
-                    val login: Login = backStackEntry.toRoute()
+                composable<Destination.Greet> { backStackEntry ->
+                    val login: Destination.Login = backStackEntry.toRoute()
                     GreetingScreen(
                         onNavigateToLogin = {
                             navController.navigate(route = login)
                         }
                     )
                 }
-                composable<Login> { backStackEntry ->
-                    val greet: Greet = backStackEntry.toRoute()
+                composable<Destination.Login> { backStackEntry ->
+                    val greet: Destination.Greet = backStackEntry.toRoute()
                     LoginScreen(
                         onNavigateBack = {
                             navController.navigate(route = greet) {
-                                popUpTo<Login> {
+                                popUpTo<Destination.Login> {
                                     inclusive = true
                                     saveState = true
                                 }
