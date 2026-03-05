@@ -51,7 +51,9 @@ fun MainScreen(viewModel: MainViewModel = viewModel { MainViewModel() }) {
 fun MainContent(rockets: List<Rocket>) {
     Scaffold { innerPadding ->
         Box(
-            modifier = Modifier.background(color = Color.Black).fillMaxSize(),
+            modifier = Modifier
+                .background(color = Color.Black)
+                .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
 

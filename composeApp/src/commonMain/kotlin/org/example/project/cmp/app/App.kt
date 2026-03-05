@@ -18,7 +18,9 @@ import org.example.project.theme.ShuttleTheme
 @Composable
 @Preview
 fun App() {
-    RootNavHost()
+    ShuttleTheme() {
+        RootNavHost()
+    }
 }
 
 @Composable
@@ -37,15 +39,6 @@ private fun RootNavHost(navController: NavHostController = rememberNavController
         composable<Destination.Login> { backStackEntry ->
             val greet = backStackEntry.toRoute<Destination.Greet>()
             LoginScreen(
-                onNavigateToGreeting = {
-                    navController.navigate(route = greet) {
-                        popUpTo<Destination.Login> {
-                            inclusive = true
-                            saveState = true
-                        }
-                        restoreState = true
-                    }
-                },
                 onNavigateToMainScreen = {
                     navController.navigate(route = Destination.Main) {
                         popUpTo<Destination.Greet> {

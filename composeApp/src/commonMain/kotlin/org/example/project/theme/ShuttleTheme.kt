@@ -10,11 +10,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kts_hw2.composeapp.generated.resources.Res
+import kts_hw2.composeapp.generated.resources.tektur_extra_bold
 import kts_hw2.composeapp.generated.resources.unispace_bd
 import org.jetbrains.compose.resources.Font
-
 data class ShuttleColours(
     val background: Color,
     val onBackground: Color,
@@ -25,15 +26,15 @@ data class ShuttleColours(
         val Dark = ShuttleColours(
             background = Color.Black,
             onBackground = Color.White,
-            container = Color.Blue,
+            container = Color.White,
             onContainer = Color.Black
         )
 
         val Light = ShuttleColours(
             background = Color.White,
             onBackground = Color.Black,
-            container = Color.Blue,
-            onContainer = Color.Black
+            container = Color.Black,
+            onContainer = Color.White
         )
     }
 }
@@ -64,21 +65,35 @@ fun ShuttleTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    val typography = ShuttleTypography()
-    val colors = when{
+    val customFontFamily = FontFamily(
+        Font(Res.font.unispace_bd)
+    )
+
+    val typography = ShuttleTypography(
+        bodyNormal = TextStyle(),
+        bodyMedium = TextStyle(
+            fontFamily = customFontFamily,
+            fontWeight = FontWeight.Normal
+        ),
+        bodyBold = TextStyle(
+            fontFamily = FontFamily(Font(Res.font.tektur_extra_bold)),
+            fontWeight = FontWeight.ExtraBold
+        )
+    )
+    val colors = when {
         darkTheme -> ShuttleColours.Dark
         else -> ShuttleColours.Light
     }
     CompositionLocalProvider(
         LocalShuttleThemeColors provides colors,
         LocalShuttleTypography provides typography
-    ){
+    ) {
         content()
     }
 }
 
 object ShuttleTheme {
-    val colors : ShuttleColours
+    val colors: ShuttleColours
         @Composable get() = LocalShuttleThemeColors.current
 
     val typography: ShuttleTypography

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,57 +28,75 @@ import kts_hw2.composeapp.generated.resources.Res
 import kts_hw2.composeapp.generated.resources.bad_script_regular
 import kts_hw2.composeapp.generated.resources.img_1
 import kts_hw2.composeapp.generated.resources.photo
+import org.example.project.cmp.app.Destination
+import org.example.project.theme.ShuttleTheme
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource
+
 
 @Composable
 fun GreetingScreen(
     onNavigateToLogin: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Box(
-            modifier = modifier
-                .padding(innerPadding)
-                .fillMaxSize()
+    ShuttleTheme {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(),
+            containerColor = ShuttleTheme.colors.background,
+            contentColor = ShuttleTheme.colors.onBackground
         ) {
-            Column(
-                modifier = modifier
-                    .background(MaterialTheme.colorScheme.surface)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceAround
-            ) {
-                AsyncImage(
-                    modifier = Modifier,
-                    contentScale = ContentScale.Crop,
-                    model = "https://s0.rbk.ru/v6_top_pics/media/img/7/75/347472273420757.jpeg",
-                    contentDescription = "LegendaryMem",
-                    placeholder = painterResource(Res.drawable.img_1),
-                    error = painterResource(Res.drawable.photo),
-                    onError = { state ->
-                        println("Coil error: ${state.result.throwable}")
-                    },
-                )
+            GreetingContent(onNavigateToLogin)
+        }
+    }
 
-                Column(
-                    modifier = Modifier.padding(5.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Button(
-                        onClick = onNavigateToLogin,
-                        content = {
-                            Text("Let's get started")
-                        }
+}
+
+@Composable
+fun GreetingContent(onNavigateToLogin: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
+            AsyncImage(
+                contentScale = ContentScale.Crop,
+                model = "https://s0.rbk.ru/v6_top_pics/media/img/7/75/347472273420757.jpeg",
+                contentDescription = "LegendaryMem",
+                placeholder = painterResource(Res.drawable.img_1),
+                error = painterResource(Res.drawable.photo),
+                onError = { state ->
+                    println("Coil error: ${state.result.throwable}")
+                },
+            )
+
+            Column(
+                modifier = Modifier.padding(5.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Button(
+                    onClick = onNavigateToLogin,
+                    content = {
+                        Text(
+                            text = "Let's get started",
+                            fontFamily = ShuttleTheme.typography.bodyBold.fontFamily
+                        )
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        disabledContentColor = ShuttleTheme.colors.onBackground,
+                        containerColor = ShuttleTheme.colors.onBackground,
+                        contentColor = ShuttleTheme.colors.background
                     )
-                    Spacer(Modifier.padding(10.dp))
-                    Text(
-                        modifier = Modifier,
-                        text = "Данное приложение было сделано студентом Вединым Дмитрием специально для курса \"Начинающий Android-разработчик\" от KTS",
-                        fontFamily = FontFamily(Font(Res.font.bad_script_regular)),
-                        fontSize = 20.sp
-                    )
-                }
+                )
+                Spacer(Modifier.padding(10.dp))
+                Text(
+                    text = "Данное приложение было сделано студентом Вединым Дмитрием специально для курса \"Начинающий Android-разработчик\" от KTS",
+                    fontFamily = FontFamily(Font(Res.font.bad_script_regular)),
+                    fontSize = 20.sp
+                )
             }
         }
     }
@@ -85,10 +104,8 @@ fun GreetingScreen(
 
 @Composable
 @Preview(showBackground = true)
-fun PreviewGreet() {
-    MaterialTheme {
-        GreetingScreen(
-            onNavigateToLogin = {}
-        )
+fun GreetingPreview() {
+    ShuttleTheme {
+        GreetingContent(onNavigateToLogin = {})
     }
 }

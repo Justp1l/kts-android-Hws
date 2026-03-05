@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -63,15 +64,15 @@ import kts_hw2.composeapp.generated.resources.astronaut
 import kts_hw2.composeapp.generated.resources.unispace_bd
 import org.example.project.cmp.feature.login.presentation.LoginUIState
 import org.example.project.cmp.feature.login.presentation.LoginUiEvent
+import org.example.project.theme.ShuttleTheme
+import org.example.project.theme.ShuttleTypography
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource
-
 
 @Composable
 @Stable
 fun LoginScreen(
     viewModel: LoginViewModel = viewModel { LoginViewModel() },
-    onNavigateToGreeting: () -> Unit,
     onNavigateToMainScreen: () -> Unit
 
 ) {
@@ -121,16 +122,23 @@ fun LoginContent(
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit,
 ) {
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(modifier = Modifier
+        .fillMaxSize(),
+        containerColor = ShuttleTheme.colors.background,
+        contentColor = ShuttleTheme.colors.onBackground,
+        ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier
+                .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
             HeaderSection()
-            Spacer(Modifier.padding(10.dp))
+            Spacer(Modifier
+                .padding(10.dp))
             Box(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
 
@@ -145,26 +153,32 @@ fun LoginContent(
                         enabled = !state.isLoginButtonActive,
                         onUsernameChange = onUsernameChange
                     )
-                    Spacer(Modifier.padding(10.dp))
+                    Spacer(Modifier
+                        .padding(10.dp))
                     PasswordField(
                         password = state.password,
                         enabled = !state.isLoginButtonActive,
                         onValueChange = onPasswordChange
                     )
-                    Spacer(Modifier.padding(20.dp))
+                    Spacer(Modifier
+                        .padding(20.dp))
                     Button(
                         onClick = onLoginClick,
                         shape = AbsoluteCutCornerShape(1.dp),
 
-                        modifier = Modifier.width(200.dp).height(50.dp),
+                        modifier = Modifier
+                            .width(200.dp)
+                            .height(50.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Black
+                            containerColor = ShuttleTheme.colors.container,
+                            contentColor = ShuttleTheme.colors.onContainer
                         ),
                         enabled = !state.isLoginButtonActive
                     ) {
                         if (state.isLoginButtonActive) {
                             CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
+                                modifier = Modifier
+                                    .size(24.dp),
                                 color = MaterialTheme.colorScheme.background,
                                 strokeWidth = 2.dp,
                             )
@@ -177,7 +191,8 @@ fun LoginContent(
             Box() {
                 Text(text = annotation, textAlign = TextAlign.Center)
             }
-            Spacer(Modifier.padding(40.dp))
+            Spacer(Modifier
+                .padding(40.dp))
         }
     }
 }
@@ -185,7 +200,8 @@ fun LoginContent(
 @Composable
 fun HeaderSection() {
     Column(
-        modifier = Modifier.padding(top = 10.dp),
+        modifier = Modifier
+            .padding(top = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -193,11 +209,11 @@ fun HeaderSection() {
                 resource = Res.drawable.astronaut
             ),
             contentDescription = "Astronaut and Mars",
-            modifier = Modifier.size(width = 190.dp, height = 250.dp)
+            modifier = Modifier
+                .size(width = 190.dp, height = 250.dp)
         )
         Text(
-            modifier = Modifier,
-            fontFamily = FontFamily(Font(Res.font.unispace_bd)),
+            fontFamily = ShuttleTheme.typography.bodyMedium.fontFamily,
             color = Color.Red,
             text = "Sign in",
             fontSize = 35.sp,
@@ -221,9 +237,9 @@ fun LoginField(
         enabled = enabled,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color.Transparent,
-            unfocusedContainerColor = Color.Transparent,
-            disabledContainerColor = Color.Transparent,
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            disabledContainerColor = Color.White,
         ),
         modifier = Modifier
             .border(1.dp, Color.Black, RectangleShape)
@@ -243,7 +259,7 @@ fun PasswordField(
     OutlinedTextField(
         value = password,
         onValueChange = onValueChange,
-        //label = { Text(text = "Password") },
+        //label = { Text(text = "Password") } Не включаю т.к поле поучается с двойными границами,
         placeholder = { Text(text = "Password", textAlign = TextAlign.Center) },
         modifier = Modifier
             .border(1.dp, Color.Black, RectangleShape)
@@ -253,16 +269,22 @@ fun PasswordField(
         enabled = enabled,
         trailingIcon = {
             IconButton(
-                onClick = { passwordVisible = !passwordVisible }
+                onClick = { passwordVisible = !passwordVisible },
             ) {
                 Icon(
                     //fix to eye later
                     imageVector = Icons.Default.Lock,
                     contentDescription = if (passwordVisible)
-                        "Hide password" else "Show password"
+                        "Hide password" else "Show password",
+                    tint = Color.Black
                 )
             }
         },
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            disabledContainerColor = Color.White,
+        )
     )
 }
 
@@ -281,10 +303,9 @@ fun PasswordPreview() {
 @Composable
 @Preview
 fun LoginPreview() {
-    MaterialTheme {
+    ShuttleTheme {
         LoginScreen(
             viewModel = LoginViewModel(),
-            onNavigateToGreeting = { },
             onNavigateToMainScreen = { }
         )
     }
