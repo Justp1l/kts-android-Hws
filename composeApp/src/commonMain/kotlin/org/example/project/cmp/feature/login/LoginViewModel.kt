@@ -19,12 +19,12 @@ class LoginViewModel :
     }
 
     fun clickOnLogin() {
-        if (state.value.isLoginButtonActive) return
+        if (!state.value.isTextFieldsActive) return
 
         updateState {
             copy(
                 error = false,
-                isLoginButtonActive = true
+                isTextFieldsActive = false
             )
         }
 
@@ -38,7 +38,7 @@ class LoginViewModel :
                 updateState{
                     copy(
                         error = true,
-                        isLoginButtonActive = false
+                        isTextFieldsActive = false
                     )
                 }
             }

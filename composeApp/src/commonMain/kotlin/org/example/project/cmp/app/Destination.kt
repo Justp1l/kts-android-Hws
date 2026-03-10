@@ -11,4 +11,6 @@ sealed interface Destination {
 
     @Serializable
     data object Main : Destination
+    @Serializable
+    data object MainAgency : Destination
 }
