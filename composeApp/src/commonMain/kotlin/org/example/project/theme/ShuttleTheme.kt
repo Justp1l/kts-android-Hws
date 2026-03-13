@@ -20,21 +20,28 @@ data class ShuttleColours(
     val background: Color,
     val onBackground: Color,
     val container: Color,
-    val onContainer: Color
+    val onContainer: Color,
+    val content: Color,
+    val gradient: List<Color>
 ) {
     companion object {
         val Dark = ShuttleColours(
             background = Color.Black,
             onBackground = Color.White,
             container = Color.White,
-            onContainer = Color.Black
+            onContainer = Color.Black,
+            //content =Color(0xFF2557F8)
+            content = Color(0xFF252063),
+            gradient = listOf(Color.Black, Color(0xFF252063))
         )
 
         val Light = ShuttleColours(
             background = Color.White,
             onBackground = Color.Black,
             container = Color.Black,
-            onContainer = Color.White
+            onContainer = Color.White,
+            content = Color(0xFF0033AA),
+            gradient = listOf(Color.White, Color(0xFF0033AA))
         )
     }
 }

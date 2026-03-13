@@ -6,7 +6,7 @@ import org.example.project.cmp.feature.main.data.Objects.Agency.RemoteAgency
 class AgenciesPreview() {
     val agencies = mutableListOf<RemoteAgency>()
     init {
-        for (i in 0..10) {
+        for (i in 0..50) {
             agencies.add(
                 RemoteAgency(
                     "$i", "Elon", "${i + 1}", "${i + 2}",

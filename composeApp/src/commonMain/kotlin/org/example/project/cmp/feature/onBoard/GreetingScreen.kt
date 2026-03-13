@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,11 +31,13 @@ import kts_hw2.composeapp.generated.resources.bad_script_regular
 import kts_hw2.composeapp.generated.resources.img_1
 import kts_hw2.composeapp.generated.resources.photo
 import org.example.project.cmp.app.Destination
+import org.example.project.cmp.feature.TopBar.TopBar
 import org.example.project.theme.ShuttleTheme
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GreetingScreen(
     onNavigateToLogin: () -> Unit,
@@ -42,6 +45,7 @@ fun GreetingScreen(
     ShuttleTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
+            topBar = { TopBar() },
             containerColor = ShuttleTheme.colors.background,
             contentColor = ShuttleTheme.colors.onBackground,
             contentWindowInsets = WindowInsets()

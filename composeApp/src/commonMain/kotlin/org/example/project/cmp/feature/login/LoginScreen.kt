@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
@@ -35,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.example.project.cmp.feature.TopBar.TopBar
 import org.example.project.cmp.feature.login.presentation.LoginUIState
 import org.example.project.cmp.feature.login.presentation.LoginUiEvent
 import org.example.project.theme.ShuttleTheme
@@ -43,20 +45,16 @@ import org.example.project.theme.ShuttleTheme
 fun LoginScreen(
     viewModel: LoginViewModel = viewModel { LoginViewModel() },
     onNavigateToMainScreen: () -> Unit
-
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-
     LaunchedEffect(Unit) {
         viewModel.label.collect { label ->
             when (label) {
                 LoginUiEvent.LoginSuccessEvent -> onNavigateToMainScreen()
             }
-
         }
     }
     val email = "ytug776@gmail.com"
-
     val annotation = buildAnnotatedString {
         append("Если Вы хотите зарегистрироваться, пишите на\n")
         withLink(
@@ -73,7 +71,6 @@ fun LoginScreen(
             append(email)
         }
     }
-
     LoginContent(
         state = state,
         annotation = annotation,
@@ -83,6 +80,7 @@ fun LoginScreen(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginContent(
     state: LoginUIState,
@@ -97,6 +95,7 @@ fun LoginContent(
             .fillMaxSize(),
         containerColor = ShuttleTheme.colors.background,
         contentColor = ShuttleTheme.colors.onBackground,
+        topBar = { TopBar() },
         contentWindowInsets = WindowInsets()
     ) { innerPadding ->
         Column(
@@ -124,7 +123,7 @@ fun LoginContent(
                     ) {
                     fields.LoginField(
                         login = state.username,
-                        enabled = !state.isTextFieldsActive,
+                        enabled = state.isTextFieldsActive,
                         onUsernameChange = onUsernameChange
                     )
                     Spacer(
@@ -133,7 +132,7 @@ fun LoginContent(
                     )
                     fields.PasswordField(
                         password = state.password,
-                        enabled = !state.isTextFieldsActive,
+                        enabled = state.isTextFieldsActive,
                         onValueChange = onPasswordChange
                     )
                     Spacer(
@@ -151,9 +150,9 @@ fun LoginContent(
                             containerColor = ShuttleTheme.colors.container,
                             contentColor = ShuttleTheme.colors.onContainer
                         ),
-                        enabled = !state.isTextFieldsActive
+                        enabled = state.isTextFieldsActive
                     ) {
-                        if (state.isTextFieldsActive) {
+                        if (!state.isTextFieldsActive) {
                             CircularProgressIndicator(
                                 modifier = Modifier
                                     .size(24.dp),
@@ -166,9 +165,7 @@ fun LoginContent(
                     }
                 }
             }
-            Box() {
-                Text(text = annotation, textAlign = TextAlign.Center)
-            }
+            Text(text = annotation, textAlign = TextAlign.Center)
             Spacer(
                 Modifier.size(40.dp)
             )

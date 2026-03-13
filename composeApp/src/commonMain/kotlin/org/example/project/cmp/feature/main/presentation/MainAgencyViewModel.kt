@@ -1,5 +1,10 @@
 package org.example.project.cmp.feature.main.presentation
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.toLowerCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -80,6 +85,19 @@ class MainAgencyViewModel : ViewModel() {
 
     fun onQueryClear() {
         onQueryChange("")
+
+    }
+    fun makeSearch(){
+        if (_state.value.isSearchActive) {
+            _state.update {
+                it.copy(isSearchActive = false)
+            }
+        } else {
+            _state.update {
+                it.copy(isSearchActive = true)
+            }
+        }
+
     }
 
     fun filterItems(query: String): List<RemoteAgency> {

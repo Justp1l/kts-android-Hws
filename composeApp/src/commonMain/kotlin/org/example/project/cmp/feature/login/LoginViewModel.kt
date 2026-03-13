@@ -38,7 +38,7 @@ class LoginViewModel :
                 updateState{
                     copy(
                         error = true,
-                        isTextFieldsActive = false
+                        isTextFieldsActive = true
                     )
                 }
             }

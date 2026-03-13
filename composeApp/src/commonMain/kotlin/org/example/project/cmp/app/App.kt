@@ -35,7 +35,7 @@ fun App() {
 private fun RootNavHost(navController: NavHostController = rememberNavController()) {
     NavHost(
         navController = navController,
-        startDestination = Destination.MainAgency
+        startDestination = Destination.Greet()
     ) {
         //temp
         composable<Destination.MainAgency> {
@@ -52,7 +52,7 @@ private fun RootNavHost(navController: NavHostController = rememberNavController
         composable<Destination.Login> {
             LoginScreen(
                 onNavigateToMainScreen = {
-                    navController.navigate(route = Destination.Main) {
+                    navController.navigate(route = Destination.MainAgency) {
                         popUpTo<Destination.Greet> {
                             inclusive = true
                         }
