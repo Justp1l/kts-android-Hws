@@ -4,10 +4,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.example.project.cmp.common.BaseViewModel
+import org.example.project.cmp.common.storage.AppStorage
 import org.example.project.cmp.feature.login.presentation.LoginUIState
 import org.example.project.cmp.feature.login.presentation.LoginUiEvent
 
-class LoginViewModel :
+class LoginViewModel(private val storage: AppStorage = AppStorage()) :
     BaseViewModel<LoginUiEvent.LoginSuccessEvent, LoginUIState>(initialState = LoginUIState.initial) {
 
     fun onUsernameChange(value: String) {
@@ -34,14 +35,22 @@ class LoginViewModel :
             val isSuccess = true
             if (isSuccess) {
                 acceptLabel(LoginUiEvent.LoginSuccessEvent)
-            } else{
-                updateState{
+            } else {
+                updateState {
                     copy(
                         error = true,
                         isTextFieldsActive = true
                     )
                 }
             }
+            if (isSuccess) completeOnboarding()
         }
     }
+
+    fun completeOnboarding() {
+        viewModelScope.launch {
+            storage.setFirstLaunchCompleted()
+        }
+    }
+
 }

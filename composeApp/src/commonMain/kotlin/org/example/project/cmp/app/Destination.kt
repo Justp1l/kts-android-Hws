@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed interface Destination {
     @Serializable
-    data class Greet(var name: String = "") : Destination
+    data object Onboarding : Destination
 
     @Serializable
     data object Login : Destination

@@ -1,5 +1,8 @@
 package org.example.project
 
+import platform.Foundation.NSDocumentDirectory
+import platform.Foundation.NSSearchPathForDirectoriesInDomains
+import platform.Foundation.NSUserDomainMask
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {
@@ -7,3 +10,9 @@ class IOSPlatform: Platform {
 }
 
 actual fun getPlatform(): Platform = IOSPlatform()
+
+actual fun getFilesDir(): String {
+    return NSSearchPathForDirectoriesInDomains(
+        NSDocumentDirectory, NSUserDomainMask, true
+    ).first() as String
+}

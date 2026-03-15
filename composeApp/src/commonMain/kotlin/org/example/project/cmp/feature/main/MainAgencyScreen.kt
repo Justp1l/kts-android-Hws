@@ -71,27 +71,27 @@ fun MainAgencyScreen(
     viewModel: MainAgencyViewModel = viewModel { MainAgencyViewModel() }
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    ShuttleTheme {
-        MainAgencyContent(
-            isSearchActive = state.isSearchActive,
-            makeSearch = viewModel::makeSearch,
-            searchQuery = state.searchQuery,
-            onQueryChange = viewModel::onQueryChange,
-            onQueryClear = viewModel::onQueryClear,
-            isLoading = state.isLoading,
-            error = state.error,
-            agencies = AgenciesPreview().agencies,
-            //agencies = state.agencies,
-            getInitialListAgain = viewModel::loadAgency
-        )
-    }
+
+    MainAgencyContent(
+        isSearchActive = state.isSearchActive,
+        makeSearch = viewModel::makeSearch,
+        searchQuery = state.searchQuery,
+        onQueryChange = viewModel::onQueryChange,
+        onQueryClear = viewModel::onQueryClear,
+        isLoading = state.isLoading,
+        error = state.error,
+        agencies = AgenciesPreview().agencies,
+        //agencies = state.agencies,
+        getInitialListAgain = viewModel::loadAgency
+    )
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainAgencyContent(
     isSearchActive: Boolean,
-   makeSearch: () -> Unit,
+    makeSearch: () -> Unit,
     searchQuery: String,
     onQueryChange: (String) -> Unit,
     onQueryClear: () -> Unit,
@@ -172,7 +172,6 @@ fun MainAgencyContent(
         }
     }
 }
-
 
 
 @Composable

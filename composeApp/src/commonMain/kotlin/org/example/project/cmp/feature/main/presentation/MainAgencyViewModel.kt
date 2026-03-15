@@ -6,6 +6,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.toLowerCase
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -15,20 +17,26 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.example.project.cmp.app.Destination
+import org.example.project.cmp.common.storage.AppStorage
 import org.example.project.cmp.feature.main.data.AgenciesRepository
 import org.example.project.cmp.feature.main.data.Objects.Agency.RemoteAgency
 
 @OptIn(FlowPreview::class)
-class MainAgencyViewModel : ViewModel() {
+class MainAgencyViewModel(
+    private val storage: AppStorage = AppStorage()
+) : ViewModel() {
     private val repo = AgenciesRepository()
     private val searchQueryFlow = MutableStateFlow("")
     private val _state = MutableStateFlow(MainAgencyUIState())
@@ -85,9 +93,9 @@ class MainAgencyViewModel : ViewModel() {
 
     fun onQueryClear() {
         onQueryChange("")
-
     }
-    fun makeSearch(){
+
+    fun makeSearch() {
         if (_state.value.isSearchActive) {
             _state.update {
                 it.copy(isSearchActive = false)

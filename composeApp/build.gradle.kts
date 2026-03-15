@@ -19,7 +19,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -29,7 +29,7 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -45,7 +45,7 @@ kotlin {
 
             //Compose UI Preview https://kotlinlang.org/docs/multiplatform/compose-previews.html#preview-setup
             implementation(libs.compose.uiToolingPreview)
-            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.10.0")
+            implementation(libs.compose.uiToolingPreview)
 
             //ViewModel https://developer.android.com/kotlin/multiplatform/viewmodel
             api(libs.androidx.lifecycle.viewmodel)
@@ -62,6 +62,10 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.logging)
+
+            // DataStore https://developer.android.com/jetpack/androidx/releases/datastore
+            // Guide https://developer.android.com/topic/libraries/architecture/datastore
+            implementation(libs.androidx.datastore.preferences.core)
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
@@ -70,6 +74,8 @@ kotlin {
             implementation(libs.coil.network.okHttp)
             // Ktor А надо ли???
             implementation(libs.ktor.client.okhttp)
+
+
         }
         iosMain.dependencies {
             // Coil?

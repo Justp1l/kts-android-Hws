@@ -1,6 +1,5 @@
-package org.example.project.cmp.feature.onBoard
+package org.example.project.cmp.feature.onBoard.pages
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,11 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -23,14 +20,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.ImageLoader
 import coil3.compose.AsyncImage
-import coil3.request.ImageRequest
 import kts_hw2.composeapp.generated.resources.Res
 import kts_hw2.composeapp.generated.resources.bad_script_regular
 import kts_hw2.composeapp.generated.resources.img_1
 import kts_hw2.composeapp.generated.resources.photo
-import org.example.project.cmp.app.Destination
 import org.example.project.cmp.feature.TopBar.TopBar
 import org.example.project.theme.ShuttleTheme
 import org.jetbrains.compose.resources.Font
@@ -39,10 +33,10 @@ import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GreetingScreen(
+fun LastPage(
     onNavigateToLogin: () -> Unit,
 ) {
-    ShuttleTheme {
+
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = { TopBar() },
@@ -50,14 +44,12 @@ fun GreetingScreen(
             contentColor = ShuttleTheme.colors.onBackground,
             contentWindowInsets = WindowInsets()
         ) {
-            GreetingContent(onNavigateToLogin)
+            LastPageContent(onNavigateToLogin)
         }
-    }
-
 }
 
 @Composable
-fun GreetingContent(onNavigateToLogin: () -> Unit) {
+fun LastPageContent(onNavigateToLogin: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -84,7 +76,7 @@ fun GreetingContent(onNavigateToLogin: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Button(
-                    onClick = onNavigateToLogin,
+                    onClick = { onNavigateToLogin() },
                     content = {
                         Text(
                             text = "Let's get started",
@@ -112,6 +104,6 @@ fun GreetingContent(onNavigateToLogin: () -> Unit) {
 @Preview(showBackground = true)
 fun GreetingPreview() {
     ShuttleTheme {
-        GreetingContent(onNavigateToLogin = {})
+        LastPage({})
     }
 }
