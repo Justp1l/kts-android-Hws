@@ -10,7 +10,8 @@ plugins {
     alias(libs.plugins.composeCompiler)
     //Serialization
     alias(libs.plugins.kotlin.serialization)
-    //kotlin("plugin.serialization") version libs.versions.kotlin
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -62,10 +63,14 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.logging)
-
             // DataStore https://developer.android.com/jetpack/androidx/releases/datastore
             // Guide https://developer.android.com/topic/libraries/architecture/datastore
             implementation(libs.androidx.datastore.preferences.core)
+            // Room https://developer.android.com/training/data-storage/room
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite)
+            implementation(libs.sqlite.bundled)
+
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
@@ -78,7 +83,7 @@ kotlin {
 
         }
         iosMain.dependencies {
-            // Coil?
+            // Coil
             implementation(libs.coil.network.ktor)
             // Ktor
             implementation(libs.ktor.client.darwin)
@@ -120,6 +125,10 @@ android {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
     implementation(libs.coil.compose)
 //    implementation(libs.coil.network)
@@ -129,5 +138,10 @@ dependencies {
     debugImplementation(libs.compose.uiTooling)
     // Compose UI preview https://kotlinlang.org/docs/multiplatform/compose-previews.html#supported-configurations
     debugImplementation("org.jetbrains.compose.ui:ui-tooling:1.10.0")
+    dependencies {
+        listOf("kspAndroid", "kspIosArm64", "kspIosSimulatorArm64").forEach {
+            add(it, libs.room.compiler)
+        }
+    }
 }
 

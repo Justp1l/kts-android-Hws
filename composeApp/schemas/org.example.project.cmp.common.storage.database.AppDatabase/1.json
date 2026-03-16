@@ -1,0 +1,86 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "51e46c99db5e30c185a8ab21f7afc726",
+    "entities": [
+      {
+        "tableName": "agency",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `abbrev` TEXT NOT NULL, `ceo` TEXT NOT NULL, `featured` INTEGER NOT NULL, `country` TEXT NOT NULL, `image_name` TEXT, `image_URL` TEXT, `description` TEXT, `founding_year` TEXT, `social_logo_url` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "abbrev",
+            "columnName": "abbrev",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ceo",
+            "columnName": "ceo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "featured",
+            "columnName": "featured",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countryName",
+            "columnName": "country",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageName",
+            "columnName": "image_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "imageURL",
+            "columnName": "image_URL",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "foundingYear",
+            "columnName": "founding_year",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "logo",
+            "columnName": "social_logo_url",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '51e46c99db5e30c185a8ab21f7afc726')"
+    ]
+  }
+}

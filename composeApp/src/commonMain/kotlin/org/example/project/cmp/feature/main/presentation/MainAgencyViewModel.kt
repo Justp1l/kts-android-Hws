@@ -30,13 +30,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.example.project.cmp.app.Destination
 import org.example.project.cmp.common.storage.AppStorage
+import org.example.project.cmp.common.storage.database.AgencyEntity
 import org.example.project.cmp.feature.main.data.AgenciesRepository
 import org.example.project.cmp.feature.main.data.Objects.Agency.RemoteAgency
 
 @OptIn(FlowPreview::class)
-class MainAgencyViewModel(
-    private val storage: AppStorage = AppStorage()
-) : ViewModel() {
+class MainAgencyViewModel : ViewModel() {
     private val repo = AgenciesRepository()
     private val searchQueryFlow = MutableStateFlow("")
     private val _state = MutableStateFlow(MainAgencyUIState())
@@ -108,7 +107,7 @@ class MainAgencyViewModel(
 
     }
 
-    fun filterItems(query: String): List<RemoteAgency> {
+    private fun filterItems(query: String): List<AgencyEntity> {
         if (query.isBlank()) return _initialState.value.agencies
         return _initialState.value.agencies.filter {
             it.name.lowercase().contains(query.lowercase()) ||

@@ -24,11 +24,14 @@ import coil3.compose.AsyncImage
 import kts_hw2.composeapp.generated.resources.Res
 import kts_hw2.composeapp.generated.resources.bad_script_regular
 import kts_hw2.composeapp.generated.resources.img_1
+import kts_hw2.composeapp.generated.resources.intro
+import kts_hw2.composeapp.generated.resources.lets_start
 import kts_hw2.composeapp.generated.resources.photo
 import org.example.project.cmp.feature.TopBar.TopBar
 import org.example.project.theme.ShuttleTheme
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -79,7 +82,7 @@ fun LastPageContent(onNavigateToLogin: () -> Unit) {
                     onClick = { onNavigateToLogin() },
                     content = {
                         Text(
-                            text = "Let's get started",
+                            text = stringResource(Res.string.lets_start),
                             fontFamily = ShuttleTheme.typography.bodyBold.fontFamily
                         )
                     },
@@ -91,7 +94,7 @@ fun LastPageContent(onNavigateToLogin: () -> Unit) {
                 )
                 Spacer(Modifier.padding(10.dp))
                 Text(
-                    text = "Данное приложение было сделано студентом Вединым Дмитрием специально для курса \"Начинающий Android-разработчик\" от KTS",
+                    text = stringResource(Res.string.intro),
                     fontFamily = FontFamily(Font(Res.font.bad_script_regular)),
                     fontSize = 20.sp
                 )

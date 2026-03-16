@@ -16,8 +16,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kts_hw2.composeapp.generated.resources.Res
+import kts_hw2.composeapp.generated.resources.start
 import org.example.project.cmp.feature.TopBar.TopBar
 import org.example.project.theme.ShuttleTheme
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +41,7 @@ fun FirstPage() {
             color = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = "Swipe to see the shape of whole Space",
+            text = stringResource(Res.string.start),
             fontFamily = ShuttleTheme.typography.bodyNormal.fontFamily,
             fontSize = 18.sp,
             color = ShuttleTheme.colors.onBackground

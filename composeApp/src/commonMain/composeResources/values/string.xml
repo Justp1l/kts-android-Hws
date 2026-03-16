@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="key1">My value</string>
+    <string name="intro">Данное приложение было сделано студентом Вединым Дмитрием специально для курса "Начинающий Android-разработчик" от KTS</string>
+    <string name="lets_start">Let's get started</string>
+    <string name="start">"Swipe to see the shape of whole Space"</string>
+    <string name="try_again">Try again</string>
+
+
+</resources>
