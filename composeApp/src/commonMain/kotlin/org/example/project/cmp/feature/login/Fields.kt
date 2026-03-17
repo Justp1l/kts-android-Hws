@@ -25,69 +25,67 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
-class Fields {
-    @Composable
-    fun LoginField(
-        login: String,
-        enabled: Boolean,
-        onUsernameChange: (String) -> Unit
-    ) {
-        TextField(
-            value = login,
-            onValueChange = onUsernameChange,
-            placeholder = { Text(text = "Login", textAlign = TextAlign.Center) },
-            label = { Text("Email") },
-            singleLine = true,
-            //isError = state.error,
-            enabled = enabled,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                disabledContainerColor = Color.White,
-            ),
-            modifier = Modifier
-                .border(1.dp, Color.Black, RectangleShape)
-            )
-    }
+@Composable
+fun LoginField(
+    login: String,
+    enabled: Boolean,
+    onUsernameChange: (String) -> Unit
+) {
+    TextField(
+        value = login,
+        onValueChange = onUsernameChange,
+        placeholder = { Text(text = "Login", textAlign = TextAlign.Center) },
+        label = { Text("Email") },
+        singleLine = true,
+        //isError = state.error,
+        enabled = enabled,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            disabledContainerColor = Color.White,
+        ),
+        modifier = Modifier
+            .border(1.dp, Color.Black, RectangleShape)
+    )
+}
 
-    @Composable
-    fun PasswordField(
-        password: String,
-        enabled: Boolean,
-        onValueChange: (String) -> Unit
-    ) {
-        var passwordVisible by rememberSaveable { mutableStateOf(false) }
+@Composable
+fun PasswordField(
+    password: String,
+    enabled: Boolean,
+    onValueChange: (String) -> Unit
+) {
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
-        OutlinedTextField(
-            value = password,
-            onValueChange = onValueChange,
-            //label = { Text(text = "Password") } Не включаю т.к поле поучается с двойными границами,
-            placeholder = { Text(text = "Password", textAlign = TextAlign.Center) },
-            modifier = Modifier
-                .border(1.dp, Color.Black, RectangleShape)
-                .padding(),
-            visualTransformation = if (passwordVisible) VisualTransformation.None
-            else PasswordVisualTransformation(),
-            enabled = enabled,
-            trailingIcon = {
-                IconButton(
-                    onClick = { passwordVisible = !passwordVisible },
-                ) {
-                    Icon(
-                        //fix to eye later
-                        imageVector = Icons.Default.Lock,
-                        contentDescription = if (passwordVisible)
-                            "Hide password" else "Show password",
-                        tint = Color.Black
-                    )
-                }
-            },
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White,
-                disabledContainerColor = Color.White,
-            )
+    OutlinedTextField(
+        value = password,
+        onValueChange = onValueChange,
+        //label = { Text(text = "Password") } Не включаю т.к поле поучается с двойными границами,
+        placeholder = { Text(text = "Password", textAlign = TextAlign.Center) },
+        modifier = Modifier
+            .border(1.dp, Color.Black, RectangleShape)
+            .padding(),
+        visualTransformation = if (passwordVisible) VisualTransformation.None
+        else PasswordVisualTransformation(),
+        enabled = enabled,
+        trailingIcon = {
+            IconButton(
+                onClick = { passwordVisible = !passwordVisible },
+            ) {
+                Icon(
+                    //fix to eye later
+                    imageVector = Icons.Default.Lock,
+                    contentDescription = if (passwordVisible)
+                        "Hide password" else "Show password",
+                    tint = Color.Black
+                )
+            }
+        },
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            disabledContainerColor = Color.White,
         )
-    }
+    )
 }
