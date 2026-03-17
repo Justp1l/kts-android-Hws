@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.example.project.cmp.feature.main.data.AgenciesRepository
 import org.example.project.cmp.feature.main.data.Objects.Agency.RemoteAgency
+import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(FlowPreview::class)
 class MainAgencyViewModel : ViewModel() {
@@ -50,7 +51,7 @@ class MainAgencyViewModel : ViewModel() {
             it.copy(isLoading = true, error = null)
         }
         currentLoadJob = viewModelScope.launch {
-            runCatching {
+            suspendRunCatching {
                 repo.loadItems()
             }.onSuccess { agencies ->
                 _state.update {
@@ -87,6 +88,15 @@ class MainAgencyViewModel : ViewModel() {
         return _initialState.value.agencies.filter {
             it.name.lowercase().contains(query.lowercase()) ||
                     it.ceo.lowercase().contains(query.lowercase())
+        }
+    }
+    inline fun <R> suspendRunCatching(block: () -> R): Result<R> {
+        return try {
+            Result.success(block())
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Throwable) {
+            Result.failure(e)
         }
     }
 }
