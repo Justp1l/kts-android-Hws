@@ -14,7 +14,6 @@ abstract class BaseViewModel<Label, State>(initialState: State) : ViewModel() {
 
     private val mutableLabel = MutableSharedFlow<Label>()
 
-    //private val mutableLabel = Channel<Label>(Channel.BUFFERED)
     private val mutableState = MutableStateFlow(initialState)
 
     val state: StateFlow<State>

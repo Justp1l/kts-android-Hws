@@ -8,8 +8,9 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-
-    kotlin("plugin.serialization") version libs.versions.kotlin
+    //Serialization
+    alias(libs.plugins.kotlin.serialization)
+    //kotlin("plugin.serialization") version libs.versions.kotlin
 }
 
 kotlin {
@@ -30,12 +31,6 @@ kotlin {
     }
     
     sourceSets {
-        androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.androidx.activity.compose)
-            // Coil
-            implementation(libs.coil.network.okHttp)
-        }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
@@ -58,10 +53,29 @@ kotlin {
             implementation(libs.material.icons.core)
             // Coil
             implementation(libs.coil.compose)
-
+            // Napier https://github.com/AAkira/Napier
+            implementation(libs.napier)
+            //Serialization
+            implementation(libs.kotlinx.serialization.json)
+            // Ktor https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
+        }
+        androidMain.dependencies {
+            implementation(libs.compose.uiToolingPreview)
+            implementation(libs.androidx.activity.compose)
+            // Coil
+            implementation(libs.coil.network.okHttp)
+            // Ktor А надо ли???
+            implementation(libs.ktor.client.okhttp)
         }
         iosMain.dependencies {
+            // Coil?
             implementation(libs.coil.network.ktor)
+            // Ktor
+            implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
