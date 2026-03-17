@@ -9,9 +9,11 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import org.example.project.theme.ShuttleTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview
 @Composable
 fun TopBar(
     title: @Composable () -> Unit = { defaultTitle() },
