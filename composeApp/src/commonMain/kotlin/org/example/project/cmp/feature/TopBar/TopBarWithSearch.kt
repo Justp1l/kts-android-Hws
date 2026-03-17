@@ -22,12 +22,14 @@ fun TopBarWithSearch(
     makeSearch: () -> Unit
 ) {
     TopBar(
-        title = { SearchField(
-            isSearchActive = isSearchActive,
-            searchQuery = searchQuery,
-            onQueryChange = onQueryChange,
-            onQueryClear = onQueryClear
-        ) },
+        title = {
+            SearchField(
+                isSearchActive = isSearchActive,
+                searchQuery = searchQuery,
+                onQueryChange = onQueryChange,
+                onQueryClear = onQueryClear
+            )
+        },
         action = { activateSearch(makeSearch) },
         scrollBehavior = scrollBehavior
     )
@@ -38,7 +40,7 @@ fun activateSearch(makeSearch: () -> Unit) {
     IconButton(onClick = makeSearch) {
         Icon(
             imageVector = Icons.Filled.Search,
-            contentDescription = "Localized description",
+            contentDescription = "Search",
             tint = ShuttleTheme.colors.onBackground
         )
     }

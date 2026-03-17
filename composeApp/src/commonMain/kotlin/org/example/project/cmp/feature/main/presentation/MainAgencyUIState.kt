@@ -8,5 +8,6 @@ data class MainAgencyUIState(
     val searchQuery: String = "",
     val agencies: List<AgencyEntity> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val isAllButtonEnabled: Boolean = true,
 )

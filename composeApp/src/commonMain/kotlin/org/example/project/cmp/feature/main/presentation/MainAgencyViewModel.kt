@@ -2,6 +2,7 @@ package org.example.project.cmp.feature.main.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -24,6 +26,7 @@ class MainAgencyViewModel : ViewModel() {
     private val _state = MutableStateFlow(MainAgencyUIState())
     private val _initialState = MutableStateFlow(MainAgencyUIState())
     val state: StateFlow<MainAgencyUIState> = _state.asStateFlow()
+    private val allActiveBarFlow = MutableStateFlow(state.value.isAllButtonEnabled)
 
     init {
         loadAgency()
@@ -37,14 +40,20 @@ class MainAgencyViewModel : ViewModel() {
                     }
                 }.collect()
         }
+        viewModelScope.launch {
+            _state
+                .map { it.isAllButtonEnabled }
+                .distinctUntilChanged()
+                .onEach { isAll -> applyFilter(isAll) }
+                .collect()
+        }
     }
 
-    private var currentLoadJob: Job? = null
     fun loadAgency() {
         _state.update {
             it.copy(isLoading = true, error = null)
         }
-        currentLoadJob = viewModelScope.launch {
+        viewModelScope.launch {
             suspendRunCatching {
                 repo.loadItems()
             }.onSuccess { agencies ->
@@ -62,6 +71,7 @@ class MainAgencyViewModel : ViewModel() {
                         error = e.message ?: "Unknown error"
                     )
                 }
+                Napier.e(e.toString(), tag = "LoadFailure")
             }
         }
     }
@@ -87,16 +97,33 @@ class MainAgencyViewModel : ViewModel() {
                 it.copy(isSearchActive = true)
             }
         }
-
     }
 
     private fun filterItems(query: String): List<AgencyEntity> {
         if (query.isBlank()) return _initialState.value.agencies
         return _initialState.value.agencies.filter {
             it.name.lowercase().contains(query.lowercase()) ||
-                    it.ceo.lowercase().contains(query.lowercase())
+                    it.ceo?.lowercase()?.contains(query.lowercase()) == true
         }
     }
+
+    fun onAllClick() {
+        _state.update { it.copy(isAllButtonEnabled = true)}
+    }
+
+    fun onFeatureClick() {
+        _state.update { it.copy(isAllButtonEnabled = false) }
+    }
+
+    private fun applyFilter(isAll: Boolean) {
+        val filtered = if (isAll) {
+            _initialState.value.agencies
+        } else {
+            _initialState.value.agencies.filter { it.featured == true }
+        }
+        _state.update { it.copy(agencies = filtered) }
+    }
+
     inline fun <R> suspendRunCatching(block: () -> R): Result<R> {
         return try {
             Result.success(block())

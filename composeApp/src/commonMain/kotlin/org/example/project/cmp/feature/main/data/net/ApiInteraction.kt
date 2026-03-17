@@ -1,6 +1,5 @@
 package org.example.project.cmp.feature.main.data.net
 
-import io.github.aakira.napier.Napier
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -15,7 +14,8 @@ class ApiInteraction(val url: String, private val httpClient: HttpClient) {
             parameter("q", query)
         }.body()
     }
-    suspend fun initialInteraction(tag:String = ""): RemoteRepository<RemoteAgency> {
+    suspend fun interactionWithNet(tag:String = ""): RemoteRepository<RemoteAgency> {
         return httpClient.get(url + tag).body()
     }
+
 }

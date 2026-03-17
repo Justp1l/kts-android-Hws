@@ -5,7 +5,6 @@ import org.example.project.cmp.common.storage.database.DatabaseProvider
 import org.example.project.cmp.feature.main.data.Objects.Agency.RemoteAgency
 import org.example.project.cmp.feature.main.data.net.ApiInteraction
 import org.example.project.cmp.feature.main.data.net.Networking
-import kotlin.String
 
 class AgenciesRepository {
 
@@ -18,19 +17,29 @@ class AgenciesRepository {
     suspend fun loadItems(): List<AgencyEntity> {
         val localAgencies = agencyDao.getAllAgencies()
         if (localAgencies.isEmpty()) {
-            val remoteAgencies = Api.initialInteraction(tag = "?featured=true&limit=50").items
-            saveAgencies(remoteAgencies)
+            val initialInteraction = Api.interactionWithNet(tag = "?limit=70")
+            saveAgencies(
+                initialAgencies = initialInteraction.items,
+                size = initialInteraction.size
+            )
             return agencyDao.getAllAgencies()
         }
         return localAgencies
     }
 
-    suspend fun saveAgencies(agencies: List<RemoteAgency>) {
-        val list: MutableList<AgencyEntity> = mutableListOf()
-        agencies.forEach {
-            list.add(it.toEntity())
+    @Suppress("SuspiciousIndentation")
+    suspend fun saveAgencies(initialAgencies: List<RemoteAgency>, size: Int) {
+        agencyDao.insertAgency(initialAgencies.map { it.toEntity() })
+        var currentOffset = initialAgencies.size
+        while (currentOffset < size) {
+            val response = Api.interactionWithNet(tag = "?limit=70&offset=$currentOffset").items
+            if (response.isEmpty()){
+                break
+            }
+            agencyDao.insertAgency(response.map { it.toEntity() })
+            currentOffset += response.size
         }
-        agencyDao.insertAgency(list)
+
     }
 
     suspend fun search(query: String): List<RemoteAgency> {
@@ -40,7 +49,7 @@ class AgenciesRepository {
 
 fun RemoteAgency.toEntity(): AgencyEntity {
     val countryList: MutableList<String> = mutableListOf()
-    country.forEach { country->
+    country?.forEach { country ->
         countryList.add(country.countryName)
     }
     return AgencyEntity(
@@ -53,6 +62,6 @@ fun RemoteAgency.toEntity(): AgencyEntity {
         imageURL = image?.imageURL,
         description = description,
         foundingYear = foundingYear,
-        logo = logo.link,
+        logo = logo?.link,
     )
 }

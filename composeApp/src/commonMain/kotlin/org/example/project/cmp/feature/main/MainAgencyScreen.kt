@@ -1,8 +1,5 @@
 package org.example.project.cmp.feature.main
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,9 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.BottomAppBarScrollBehavior
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,9 +22,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomAppBarState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -41,6 +34,7 @@ import kts_hw2.composeapp.generated.resources.Res
 import kts_hw2.composeapp.generated.resources.try_again
 import org.example.project.cmp.common.storage.database.AgencyEntity
 import org.example.project.cmp.feature.TopBar.TopBarWithSearch
+import org.example.project.cmp.feature.main.presentation.FiltrationButtons
 import org.example.project.cmp.feature.main.presentation.MainAgencyViewModel
 import org.example.project.cmp.feature.main.presentation.components.AgenciesPreview
 import org.example.project.cmp.feature.main.presentation.components.AgencyItem
@@ -63,7 +57,10 @@ fun MainAgencyScreen(
         error = state.error,
         //agencies = AgenciesPreview().agencies,  // test
         agencies = state.agencies,            // Api interaction
-        getInitialListAgain = viewModel::loadAgency
+        getInitialListAgain = viewModel::loadAgency,
+        onAllButtonClick = viewModel::onAllClick,
+        onFeatureButtonClick = viewModel::onFeatureClick,
+        isAllButtonEnabled = state.isAllButtonEnabled,
     )
 
 }
@@ -80,6 +77,9 @@ fun MainAgencyContent(
     error: String?,
     agencies: List<AgencyEntity>,
     getInitialListAgain: () -> Unit,
+    onAllButtonClick: () -> Unit,
+    onFeatureButtonClick: () -> Unit,
+    isAllButtonEnabled: Boolean = true
 ) {
     val bottomScrollBehavior =
         BottomAppBarDefaults.exitAlwaysScrollBehavior(state = rememberBottomAppBarState())
@@ -100,22 +100,18 @@ fun MainAgencyContent(
             )
         },
         bottomBar = {
-
             Navbar(
                 onMainPress = {},
                 onHeartPress = {},
                 onProfilePress = {},
                 scrollBehavior = bottomScrollBehavior
             )
-
-
         },
         containerColor = ShuttleTheme.colors.background,
         contentWindowInsets = WindowInsets(),
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             Column {
-                Spacer(modifier = Modifier.padding(10.dp))
                 if (isLoading) {
                     Box(
                         contentAlignment = Alignment.Center,
@@ -124,14 +120,14 @@ fun MainAgencyContent(
                         CircularProgressIndicator()
                     }
                 }
-                error?.let { e ->
+                if (error != null) {
                     Column(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.End
                     ) {
                         Spacer(Modifier.size(15.dp))
                         Text(
-                            text = e,
+                            text = error,
                             color = MaterialTheme.colorScheme.error,
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(8.dp)
@@ -149,9 +145,15 @@ fun MainAgencyContent(
                             )
                         }
                     }
-
+                } else if (!isLoading) {
+                    Spacer(Modifier.size(5.dp))
+                    FiltrationButtons(
+                        onAllButtonClick = onAllButtonClick,
+                        onFeatureButtonClick = onFeatureButtonClick,
+                        isAllButtonEnabled = isAllButtonEnabled
+                    )
                 }
-                Spacer(Modifier.padding(15.dp))
+                Spacer(Modifier.padding(5.dp))
                 LazyVerticalGrid(
                     columns = GridCells.Adaptive(minSize = 150.dp),
                     modifier = Modifier.weight(1f)
@@ -181,6 +183,9 @@ fun MainAgencyPreview() {
             error = "null",
             agencies = AgenciesPreview().agencies,
             getInitialListAgain = {},
+            onAllButtonClick = {},
+            onFeatureButtonClick = {},
+            isAllButtonEnabled = true,
         )
     }
 }

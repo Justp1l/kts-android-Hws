@@ -26,8 +26,6 @@ import coil3.compose.AsyncImage
 import kts_hw2.composeapp.generated.resources.Res
 import kts_hw2.composeapp.generated.resources.astronaut
 import org.example.project.cmp.common.storage.database.AgencyEntity
-import org.example.project.cmp.feature.main.data.Objects.Agency.RemoteAgency
-import org.example.project.cmp.feature.main.presentation.components.AgenciesPreview
 import org.example.project.theme.ShuttleTheme
 import org.jetbrains.compose.resources.painterResource
 
@@ -88,7 +86,7 @@ fun AgencyItem(agency: AgencyEntity) {
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
                 Text(
-                    text = agency.ceo,
+                    text = agency.ceo ?: "",
                     textAlign = TextAlign.Center,
                     fontFamily = ShuttleTheme.typography.bodyBold.fontFamily,
                     color = Color.White,

@@ -8,13 +8,13 @@ data class RemoteAgency(
     @SerialName("name")
     val name: String,
     @SerialName("abbrev")
-    val abbrev: String,
+    val abbrev: String?,
     @SerialName("administrator")
-    val ceo: String,
+    val ceo: String?,
     @SerialName("featured")
-    val featured: Boolean,
+    val featured: Boolean?,
     @SerialName("country")
-    val country: List<Country>,
+    val country: List<Country>?,
     @SerialName("image")
     val image: Image?,
     @SerialName("description")
@@ -22,7 +22,7 @@ data class RemoteAgency(
     @SerialName("founding_year")
     val foundingYear: String?,
     @SerialName ("social_logo")
-    val logo: Logo
+    val logo: Logo?
 ) {
 
 }

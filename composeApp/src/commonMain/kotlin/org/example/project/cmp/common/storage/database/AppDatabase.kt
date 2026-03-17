@@ -19,6 +19,7 @@ abstract class AppDatabase : RoomDatabase() {
 object DatabaseProvider {
     val instance: AppDatabase by lazy {
         getDatabaseBuilder()
+            .fallbackToDestructiveMigration(true)
             .setDriver(BundledSQLiteDriver())
             .build()
     }

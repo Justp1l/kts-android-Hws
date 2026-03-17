@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RemoteRepository<T>(
+    @SerialName("count")
+    val size:Int,
     @SerialName("results")
     val items: List<T>
 )

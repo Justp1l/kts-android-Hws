@@ -1,47 +1,79 @@
 package org.example.project.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kts_hw2.composeapp.generated.resources.Res
 import kts_hw2.composeapp.generated.resources.tektur_extra_bold
 import kts_hw2.composeapp.generated.resources.unispace_bd
 import org.jetbrains.compose.resources.Font
+
 data class ShuttleColours(
     val background: Color,
     val onBackground: Color,
     val container: Color,
     val onContainer: Color,
     val content: Color,
-    val gradient: List<Color>
+    val contentDisabled: Color,
+    val gradient: List<Color>,
+
+    val activeButtonColours: ButtonColors,
+    val inactiveButtonColours: ButtonColors
 ) {
+
+
     companion object {
         val Dark = ShuttleColours(
             background = Color.Black,
             onBackground = Color.White,
             container = Color.White,
             onContainer = Color.Black,
-            //content =Color(0xFF2557F8)
             content = Color(0xFF252063),
-            gradient = listOf(Color.Black, Color(0xFF252063))
-        )
+            contentDisabled = Color(0xFF9ABAED),
+            gradient = listOf(Color.Black, Color(0xFF252063)),
 
+            activeButtonColours = ButtonColors(
+                containerColor = Color(0xFF252063),
+                contentColor = Color.White,
+                disabledContainerColor = Color.Gray,
+                disabledContentColor = Color.White
+            ),
+            inactiveButtonColours = ButtonColors(
+                containerColor = Color(0xFF9ABAED),
+                contentColor = Color.Black,
+                disabledContainerColor = Color.Gray,
+                disabledContentColor = Color.White
+            )
+        )
         val Light = ShuttleColours(
             background = Color.White,
             onBackground = Color.Black,
             container = Color.Black,
             onContainer = Color.White,
             content = Color(0xFF0033AA),
-            gradient = listOf(Color.White, Color(0xFF0033AA))
+            contentDisabled = Color(0xFF8CCEFF),
+            gradient = listOf(Color.White, Color(0xFF0033AA)),
+
+            activeButtonColours = ButtonColors(
+                containerColor = Color(0xFF0033AA),
+                contentColor = Color.White,
+                disabledContainerColor = Color.Gray,
+                disabledContentColor = Color.White
+            ),
+            inactiveButtonColours = ButtonColors(
+                containerColor = Color(0xFF8CCEFF),
+                contentColor = Color.Black,
+                disabledContainerColor = Color.Gray,
+                disabledContentColor = Color.White
+            )
         )
     }
 }

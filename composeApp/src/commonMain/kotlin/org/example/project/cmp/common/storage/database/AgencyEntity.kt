@@ -14,13 +14,13 @@ data class AgencyEntity(
     @ColumnInfo(name="name")
     val name: String,
     @ColumnInfo(name="abbrev")
-    val abbrev: String,
+    val abbrev: String?,
     @ColumnInfo(name="ceo")
-    val ceo: String,
+    val ceo: String?,
     @ColumnInfo(name="featured")
-    val featured: Boolean,
+    val featured: Boolean?,
     @ColumnInfo(name="country")
-    val countryName: List<String>,
+    val countryName: List<String>?,
     @ColumnInfo(name="image_name")
     val imageName: String?,
     @ColumnInfo(name="image_URL")
