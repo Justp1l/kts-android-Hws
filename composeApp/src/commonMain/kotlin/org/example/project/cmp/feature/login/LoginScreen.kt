@@ -89,7 +89,6 @@ fun LoginContent(
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit,
 ) {
-    val fields = Fields()
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -121,7 +120,7 @@ fun LoginContent(
                     horizontalAlignment = Alignment.CenterHorizontally,
 
                     ) {
-                    fields.LoginField(
+                    LoginField(
                         login = state.username,
                         enabled = state.isTextFieldsActive,
                         onUsernameChange = onUsernameChange
@@ -130,7 +129,7 @@ fun LoginContent(
                         Modifier
                             .size(10.dp)
                     )
-                    fields.PasswordField(
+                    PasswordField(
                         password = state.password,
                         enabled = state.isTextFieldsActive,
                         onValueChange = onPasswordChange
@@ -178,7 +177,7 @@ fun LoginContent(
 //@Preview
 fun PasswordPreview() {
     MaterialTheme {
-        Fields().PasswordField(
+        PasswordField(
             password = "",
             enabled = true,
             onValueChange = {}

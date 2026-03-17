@@ -1,38 +1,21 @@
 package org.example.project.cmp.feature.main.presentation
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.text.toLowerCase
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.example.project.cmp.app.Destination
-import org.example.project.cmp.common.storage.AppStorage
 import org.example.project.cmp.common.storage.database.AgencyEntity
 import org.example.project.cmp.feature.main.data.AgenciesRepository
-import org.example.project.cmp.feature.main.data.Objects.Agency.RemoteAgency
+import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(FlowPreview::class)
 class MainAgencyViewModel : ViewModel() {
@@ -62,7 +45,7 @@ class MainAgencyViewModel : ViewModel() {
             it.copy(isLoading = true, error = null)
         }
         currentLoadJob = viewModelScope.launch {
-            runCatching {
+            suspendRunCatching {
                 repo.loadItems()
             }.onSuccess { agencies ->
                 _state.update {
@@ -112,6 +95,15 @@ class MainAgencyViewModel : ViewModel() {
         return _initialState.value.agencies.filter {
             it.name.lowercase().contains(query.lowercase()) ||
                     it.ceo.lowercase().contains(query.lowercase())
+        }
+    }
+    inline fun <R> suspendRunCatching(block: () -> R): Result<R> {
+        return try {
+            Result.success(block())
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Throwable) {
+            Result.failure(e)
         }
     }
 }
