@@ -17,5 +17,4 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
-shared/
 /composeApp/src/commonMain/kotlin/org/example/project/cmp/feature/main/documentationToApi.txt

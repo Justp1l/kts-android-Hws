@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import org.example.project.cmp.app.App
 import org.example.project.cmp.common.DI.initKoin
-import org.example.project.cmp.common.MainViewModel
+import org.example.project.cmp.feature.onBoard.domain.MainViewModel
 import org.koin.android.ext.koin.androidContext
 
 

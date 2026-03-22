@@ -29,13 +29,13 @@ import kts_hw2.composeapp.generated.resources.Res
 import kts_hw2.composeapp.generated.resources.astronaut
 import kts_hw2.composeapp.generated.resources.unispace_bd
 import org.example.project.cmp.feature.main.data.Objects.Rocket.RemoteCard
-import org.example.project.cmp.feature.main.presentation.MainViewModel
+import org.example.project.cmp.feature.main.domain.MainViewModel
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-//@Preview
+@Preview
 fun MainScreen(viewModel: MainViewModel = viewModel { MainViewModel() }) {
     val rockets by viewModel.rockets.collectAsState()
     MainContent(rockets)
@@ -115,7 +115,7 @@ fun lazyElement(
 }
 
 @Composable
-@Preview
+//@Preview
 fun ElementPreview() {
     MaterialTheme {
         lazyElement(

@@ -1,19 +1,18 @@
 package org.example.project.cmp.common.DI
 
-import org.example.project.cmp.common.MainViewModel
-import org.example.project.cmp.common.storage.AppStorage
-import org.example.project.cmp.common.storage.database.AgenciesDao
-import org.example.project.cmp.common.storage.database.AppDatabase
-import org.example.project.cmp.common.storage.database.getAppDatabase
-import org.example.project.cmp.feature.login.LoginViewModel
-import org.example.project.cmp.feature.main.data.AgenciesRepository
-import org.example.project.cmp.feature.main.data.AgenciesRepositoryImpl
-import org.example.project.cmp.feature.main.data.net.ApiInteraction
-import org.example.project.cmp.feature.main.data.net.createHttpClient
-import org.example.project.cmp.feature.main.presentation.MainAgencyViewModel
+import org.example.project.cmp.feature.onBoard.domain.MainViewModel
+import org.example.project.cmp.feature.onBoard.data.AppStorage
+import org.example.project.cmp.feature.main.agencies.data.database.AgenciesDao
+import org.example.project.cmp.feature.main.agencies.data.database.MainAgencyDatabase
+import org.example.project.cmp.feature.main.agencies.data.database.getAppDatabase
+import org.example.project.cmp.feature.login.domain.LoginViewModel
+import org.example.project.cmp.feature.main.agencies.data.AgenciesRepository
+import org.example.project.cmp.feature.main.agencies.data.AgenciesRepositoryImpl
+import org.example.project.cmp.common.net.ApiInteraction
+import org.example.project.cmp.common.net.createHttpClient
+import org.example.project.cmp.feature.main.agencies.domain.MainAgencyViewModel
 import org.example.project.createDataStore
 import org.koin.core.context.startKoin
-import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
@@ -38,8 +37,8 @@ val domainModule = module {
 }
 
 val dataModule = module {
-    single<AppDatabase>{ getAppDatabase() }
-    single<AgenciesDao> { get<AppDatabase>().agencyDao() }
+    single<MainAgencyDatabase>{ getAppDatabase() }
+    single<AgenciesDao> { get<MainAgencyDatabase>().agencyDao() }
     single { createDataStore() }
     single { AppStorage(dataStorage = get()) }
 }

@@ -7,10 +7,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import kotlinx.cinterop.ExperimentalForeignApi
 import okio.Path.Companion.toPath
-import org.example.project.cmp.common.storage.database.AppDatabase
-import org.example.project.cmp.common.storage.database.getAppDatabase
-import org.koin.core.module.Module
-import org.koin.dsl.module
+import org.example.project.cmp.feature.main.agencies.data.database.MainAgencyDatabase
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSHomeDirectory
@@ -31,9 +28,9 @@ actual fun getFilesDir(): String {
     ).first() as String
 }
 
-actual fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
+actual fun getDatabaseBuilder(): RoomDatabase.Builder<MainAgencyDatabase> {
     val dbFile = NSHomeDirectory() + "/Documents/app-database"
-    return Room.databaseBuilder<AppDatabase>(name = dbFile)
+    return Room.databaseBuilder<MainAgencyDatabase>(name = dbFile)
 }
 
 private const val DATA_STORE_FILE_NAME = "app_storage.preferences_pb"
