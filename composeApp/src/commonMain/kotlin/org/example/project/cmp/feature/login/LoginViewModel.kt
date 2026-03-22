@@ -8,7 +8,7 @@ import org.example.project.cmp.common.storage.AppStorage
 import org.example.project.cmp.feature.login.presentation.LoginUIState
 import org.example.project.cmp.feature.login.presentation.LoginUiEvent
 
-class LoginViewModel(private val storage: AppStorage = AppStorage()) :
+class LoginViewModel(private val storage: AppStorage) :
     BaseViewModel<LoginUiEvent.LoginSuccessEvent, LoginUIState>(initialState = LoginUIState.initial) {
 
     fun onUsernameChange(value: String) {

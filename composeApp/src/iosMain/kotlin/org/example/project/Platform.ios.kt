@@ -1,9 +1,18 @@
 package org.example.project
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import kotlinx.cinterop.ExperimentalForeignApi
+import okio.Path.Companion.toPath
 import org.example.project.cmp.common.storage.database.AppDatabase
+import org.example.project.cmp.common.storage.database.getAppDatabase
+import org.koin.core.module.Module
+import org.koin.dsl.module
 import platform.Foundation.NSDocumentDirectory
+import platform.Foundation.NSFileManager
 import platform.Foundation.NSHomeDirectory
 import platform.Foundation.NSSearchPathForDirectoriesInDomains
 import platform.Foundation.NSUserDomainMask
@@ -26,3 +35,14 @@ actual fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
     val dbFile = NSHomeDirectory() + "/Documents/app-database"
     return Room.databaseBuilder<AppDatabase>(name = dbFile)
 }
+
+private const val DATA_STORE_FILE_NAME = "app_storage.preferences_pb"
+@OptIn(ExperimentalForeignApi::class)
+actual fun createDataStore(): DataStore<Preferences> =
+    PreferenceDataStoreFactory.createWithPath(
+        produceFile = {
+            val dir = NSFileManager.defaultManager
+                .URLForDirectory(NSDocumentDirectory, NSUserDomainMask, null, true, null)
+            (requireNotNull(dir).path + "/$DATA_STORE_FILE_NAME").toPath()
+        }
+    )

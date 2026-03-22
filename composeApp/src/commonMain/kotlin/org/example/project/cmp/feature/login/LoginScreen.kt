@@ -13,17 +13,17 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.AbsoluteCutCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
@@ -35,17 +35,17 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import org.example.project.cmp.feature.TopBar.TopBar
+import org.example.project.cmp.common.UI.Bars.TopBar.TopBar
 import org.example.project.cmp.feature.login.presentation.LoginUIState
 import org.example.project.cmp.feature.login.presentation.LoginUiEvent
 import org.example.project.theme.ShuttleTheme
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = viewModel { LoginViewModel() },
     onNavigateToMainScreen: () -> Unit
 ) {
+    val viewModel: LoginViewModel = koinViewModel<LoginViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         viewModel.label.collect { label ->
@@ -190,7 +190,6 @@ fun PasswordPreview() {
 fun LoginPreview() {
     ShuttleTheme {
         LoginScreen(
-            viewModel = LoginViewModel(),
             onNavigateToMainScreen = { }
         )
     }

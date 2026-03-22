@@ -1,4 +1,4 @@
-package org.example.project.cmp.feature.TopBar
+package org.example.project.cmp.common.UI.Bars.TopBar
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme

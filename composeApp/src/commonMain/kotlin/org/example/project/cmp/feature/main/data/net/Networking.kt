@@ -12,28 +12,26 @@ import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-object Networking {
-    val httpClient = HttpClient {
-        install(plugin = ContentNegotiation) {
-            val jsonEntity = Json {
-                ignoreUnknownKeys = true
-                isLenient = true
-            }
-            json(jsonEntity)
+fun createHttpClient(): HttpClient = HttpClient {
+    install(plugin = ContentNegotiation) {
+        val jsonEntity = Json {
+            ignoreUnknownKeys = true
+            isLenient = true
         }
+        json(jsonEntity)
+    }
 
-        install(plugin = Logging) {
-            logger = object : Logger {
-                override fun log(message: String) {
-                    Napier.d(message, tag = "Ktor")
-                }
+    install(plugin = Logging) {
+        logger = object : Logger {
+            override fun log(message: String) {
+                Napier.d(message, tag = "Ktor")
             }
-            level = LogLevel.HEADERS
         }
+        level = LogLevel.HEADERS
+    }
 
-        defaultRequest {
-            url("https://ll.thespacedevs.com/") // 15 req/hr - max
-            contentType(ContentType.Application.Json)
-        }
+    defaultRequest {
+        url("https://ll.thespacedevs.com/") // 15 req/hr - max
+        contentType(ContentType.Application.Json)
     }
 }

@@ -15,20 +15,29 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
+import org.example.project.cmp.common.DI.dataModule
+import org.example.project.cmp.common.DI.domainModule
+import org.example.project.cmp.common.DI.networkingModule
+import org.example.project.cmp.common.DI.presentationModule
 import org.example.project.cmp.common.MainViewModel
 import org.example.project.cmp.feature.login.LoginScreen
-import org.example.project.cmp.feature.main.MainAgencyScreen
-import org.example.project.cmp.feature.main.MainScreen
+import org.example.project.cmp.feature.main.UI.MainAgencyScreen
+import org.example.project.cmp.feature.main.UI.MainScreen
+import org.example.project.cmp.feature.main.presentation.MainAgencyViewModel
 import org.example.project.cmp.feature.onBoard.Onboarding
-import org.example.project.cmp.feature.onBoard.pages.LastPage
 
 import org.example.project.theme.ShuttleTheme
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.KoinApplication
+import org.koin.dsl.koinApplication
+import org.koin.dsl.koinConfiguration
 
 @Composable
 fun App(
-    viewModel: MainViewModel
+
 ) {
     val startDestination = remember { mutableStateOf<Destination?>(null) }
+    val viewModel = koinViewModel<MainViewModel>()
     LaunchedEffect(Unit) {
         startDestination.value = viewModel.getStartDestination()
         Napier.base(DebugAntilog())

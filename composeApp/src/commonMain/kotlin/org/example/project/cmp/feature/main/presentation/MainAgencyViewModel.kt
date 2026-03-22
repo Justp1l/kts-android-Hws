@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,11 +16,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.example.project.cmp.common.storage.database.AgencyEntity
 import org.example.project.cmp.feature.main.data.AgenciesRepository
+import org.example.project.cmp.feature.main.data.AgenciesRepositoryImpl
 import kotlin.coroutines.cancellation.CancellationException
 
 @OptIn(FlowPreview::class)
-class MainAgencyViewModel : ViewModel() {
-    private val repo = AgenciesRepository()
+class MainAgencyViewModel(
+    private val repo : AgenciesRepository
+) : ViewModel() {
+
     private val searchQueryFlow = MutableStateFlow("")
     private val _state = MutableStateFlow(MainAgencyUIState())
     private val _initialState = MutableStateFlow(MainAgencyUIState())

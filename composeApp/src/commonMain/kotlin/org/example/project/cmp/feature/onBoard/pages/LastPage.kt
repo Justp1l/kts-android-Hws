@@ -27,7 +27,7 @@ import kts_hw2.composeapp.generated.resources.img_1
 import kts_hw2.composeapp.generated.resources.intro
 import kts_hw2.composeapp.generated.resources.lets_start
 import kts_hw2.composeapp.generated.resources.photo
-import org.example.project.cmp.feature.TopBar.TopBar
+import org.example.project.cmp.common.UI.Bars.TopBar.TopBar
 import org.example.project.theme.ShuttleTheme
 import org.jetbrains.compose.resources.Font
 import org.jetbrains.compose.resources.painterResource

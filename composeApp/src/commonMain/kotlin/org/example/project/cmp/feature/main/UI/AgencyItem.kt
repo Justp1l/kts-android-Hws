@@ -1,4 +1,4 @@
-package org.example.project.cmp.feature.main.presentation.components
+package org.example.project.cmp.feature.main.UI
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,6 +26,7 @@ import coil3.compose.AsyncImage
 import kts_hw2.composeapp.generated.resources.Res
 import kts_hw2.composeapp.generated.resources.astronaut
 import org.example.project.cmp.common.storage.database.AgencyEntity
+import org.example.project.cmp.feature.main.presentation.components.AgenciesPreview
 import org.example.project.theme.ShuttleTheme
 import org.jetbrains.compose.resources.painterResource
 

@@ -12,9 +12,7 @@ import kotlinx.coroutines.flow.map
 import okio.Path.Companion.toPath
 import org.example.project.getFilesDir
 
-
-
-class AppStorage(private val dataStorage: DataStore<Preferences> = DataStoreProvider.instance) {
+class AppStorage(private val dataStorage: DataStore<Preferences>) {
     private companion object {
         val IS_FIRST_LAUNCH = booleanPreferencesKey("is_first_launch")
     }

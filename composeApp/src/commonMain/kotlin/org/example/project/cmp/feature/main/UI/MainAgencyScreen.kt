@@ -1,4 +1,4 @@
-package org.example.project.cmp.feature.main
+package org.example.project.cmp.feature.main.UI
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,19 +32,20 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kts_hw2.composeapp.generated.resources.Res
 import kts_hw2.composeapp.generated.resources.try_again
+import org.example.project.cmp.common.UI.Bars.Navbar
+import org.example.project.cmp.common.UI.Bars.TopBar.TopBarWithSearch
 import org.example.project.cmp.common.storage.database.AgencyEntity
-import org.example.project.cmp.feature.TopBar.TopBarWithSearch
-import org.example.project.cmp.feature.main.presentation.FiltrationButtons
 import org.example.project.cmp.feature.main.presentation.MainAgencyViewModel
 import org.example.project.cmp.feature.main.presentation.components.AgenciesPreview
-import org.example.project.cmp.feature.main.presentation.components.AgencyItem
 import org.example.project.theme.ShuttleTheme
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MainAgencyScreen(
-    viewModel: MainAgencyViewModel = viewModel { MainAgencyViewModel() }
+
 ) {
+    val viewModel: MainAgencyViewModel = koinViewModel<MainAgencyViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     MainAgencyContent(

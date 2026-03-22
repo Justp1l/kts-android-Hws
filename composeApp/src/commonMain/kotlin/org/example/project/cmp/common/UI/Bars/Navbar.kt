@@ -1,4 +1,4 @@
-package org.example.project.cmp.feature.main
+package org.example.project.cmp.common.UI.Bars
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

@@ -1,4 +1,4 @@
-package org.example.project.cmp.feature.main
+package org.example.project.cmp.feature.main.UI
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -16,11 +16,9 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun agencyDao(): AgenciesDao
 }
 
-object DatabaseProvider {
-    val instance: AppDatabase by lazy {
-        getDatabaseBuilder()
-            .fallbackToDestructiveMigration(true)
-            .setDriver(BundledSQLiteDriver())
-            .build()
-    }
+fun getAppDatabase(): AppDatabase {
+    return getDatabaseBuilder()
+        .fallbackToDestructiveMigration(true)
+        .setDriver(BundledSQLiteDriver())
+        .build()
 }

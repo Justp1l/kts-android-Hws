@@ -8,7 +8,6 @@ import org.example.project.cmp.feature.main.data.Objects.Agency.RemoteAgency
 import org.example.project.cmp.feature.main.data.Objects.RemoteRepository
 
 class ApiInteraction(val url: String, private val httpClient: HttpClient) {
-
     suspend fun searchAgencies(query:String) : RemoteRepository<RemoteAgency> {
         return httpClient.get(url) {
             parameter("q", query)
@@ -17,5 +16,4 @@ class ApiInteraction(val url: String, private val httpClient: HttpClient) {
     suspend fun interactionWithNet(tag:String = ""): RemoteRepository<RemoteAgency> {
         return httpClient.get(url + tag).body()
     }
-
 }

@@ -8,8 +8,9 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    //Serialization
+    // Serialization
     alias(libs.plugins.kotlin.serialization)
+    // Room
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
 }
@@ -40,14 +41,11 @@ kotlin {
             implementation(libs.compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-
             //Navigation https://developer.android.com/develop/ui/compose/navigation#kts
             implementation(libs.compose.navigation)
-
             //Compose UI Preview https://kotlinlang.org/docs/multiplatform/compose-previews.html#preview-setup
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiToolingPreview)
-
             //ViewModel https://developer.android.com/kotlin/multiplatform/viewmodel
             api(libs.androidx.lifecycle.viewmodel)
             // Icons
@@ -66,11 +64,15 @@ kotlin {
             // DataStore https://developer.android.com/jetpack/androidx/releases/datastore
             // Guide https://developer.android.com/topic/libraries/architecture/datastore
             implementation(libs.androidx.datastore.preferences.core)
+            implementation(libs.androidx.datastore.preferences)
             // Room https://developer.android.com/training/data-storage/room
             implementation(libs.room.runtime)
             implementation(libs.sqlite)
             implementation(libs.sqlite.bundled)
-
+            // Koin https://insert-koin.io/docs/setup/gradle#using-bom-directly
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
         }
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
@@ -79,8 +81,6 @@ kotlin {
             implementation(libs.coil.network.okHttp)
             // Ktor А надо ли???
             implementation(libs.ktor.client.okhttp)
-
-
         }
         iosMain.dependencies {
             // Coil

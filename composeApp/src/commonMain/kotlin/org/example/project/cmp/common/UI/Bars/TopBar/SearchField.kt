@@ -1,4 +1,4 @@
-package org.example.project.cmp.feature.TopBar
+package org.example.project.cmp.common.UI.Bars.TopBar
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
