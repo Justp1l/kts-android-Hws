@@ -15,21 +15,18 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
-import org.example.project.cmp.feature.onBoard.domain.MainViewModel
+import org.example.project.cmp.feature.onBoard.domain.OnboardingViewModel
 import org.example.project.cmp.feature.login.UI.LoginScreen
-import org.example.project.cmp.feature.main.agencies.UI.MainAgencyScreen
-import org.example.project.cmp.feature.main.UI.MainScreen
+import org.example.project.cmp.feature.main.FeatureNavigationContainer
 import org.example.project.cmp.feature.onBoard.UI.Onboarding
 
 import org.example.project.theme.ShuttleTheme
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun App(
-
-) {
+fun App() {
     val startDestination = remember { mutableStateOf<Destination?>(null) }
-    val viewModel = koinViewModel<MainViewModel>()
+    val viewModel = koinViewModel<OnboardingViewModel>()
     LaunchedEffect(Unit) {
         startDestination.value = viewModel.getStartDestination()
         Napier.base(DebugAntilog())
@@ -50,12 +47,7 @@ private fun RootNavHost(
         navController = navController,
         startDestination = startDestination,
     ) {
-        composable<Destination.MainAgency>(
-            enterTransition = { fadeIn(tween(300)) },
-            exitTransition = { fadeOut(tween(300)) }
-        ) {
-            MainAgencyScreen()
-        }
+
         composable<Destination.Onboarding>(
             enterTransition = { fadeIn(tween(300)) },
             exitTransition = { fadeOut(tween(300)) }
@@ -69,7 +61,7 @@ private fun RootNavHost(
         composable<Destination.Login> {
             LoginScreen(
                 onNavigateToMainScreen = {
-                    navController.navigate(route = Destination.MainAgency) {
+                    navController.navigate(route = Destination.FeatureNavigation) {
                         popUpTo<Destination.Onboarding> {
                             inclusive = true
                         }
@@ -77,8 +69,9 @@ private fun RootNavHost(
                 }
             )
         }
-        composable<Destination.Main> {
-            MainScreen()
+
+        composable<Destination.FeatureNavigation>{
+            FeatureNavigationContainer()
         }
     }
 }

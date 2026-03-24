@@ -2,6 +2,7 @@ package org.example.project.cmp.feature.main.agencies.UI
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,39 +42,61 @@ import org.example.project.theme.ShuttleTheme
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainAgencyScreen(
-
+    onMainPress: () -> Unit,
+    onHeartPress: () -> Unit,
+    onProfilePress: () -> Unit
 ) {
     val viewModel: MainAgencyViewModel = koinViewModel<MainAgencyViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val bottomScrollBehavior =
+        BottomAppBarDefaults.exitAlwaysScrollBehavior(state = rememberBottomAppBarState())
+    val scrollBehavior =
+        TopAppBarDefaults.enterAlwaysScrollBehavior(state = rememberTopAppBarState())
 
-    MainAgencyContent(
-        isSearchActive = state.isSearchActive,
-        makeSearch = viewModel::makeSearch,
-        searchQuery = state.searchQuery,
-        onQueryChange = viewModel::onQueryChange,
-        onQueryClear = viewModel::onQueryClear,
-        isLoading = state.isLoading,
-        error = state.error,
-        //agencies = AgenciesPreview().agencies,  // test
-        agencies = state.agencies,            // Api interaction
-        getInitialListAgain = viewModel::loadAgency,
-        onAllButtonClick = viewModel::onAllClick,
-        onFeatureButtonClick = viewModel::onFeatureClick,
-        isAllButtonEnabled = state.isAllButtonEnabled,
-    )
-
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+            .nestedScroll(bottomScrollBehavior.nestedScrollConnection)
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopBarWithSearch(
+                makeSearch = viewModel::makeSearch,
+                searchQuery = state.searchQuery,
+                onQueryChange = viewModel::onQueryChange,
+                onQueryClear = viewModel::onQueryClear,
+                isSearchActive = state.isSearchActive,
+                scrollBehavior = scrollBehavior
+            )
+        },
+        bottomBar = {
+            Navbar(
+                onMainPress = onMainPress,
+                onHeartPress = onHeartPress,
+                onProfilePress = onProfilePress,
+                scrollBehavior = bottomScrollBehavior
+            )
+        },
+        containerColor = ShuttleTheme.colors.background,
+    ) { paddingValues ->
+        MainAgencyContent(
+            paddingValues = paddingValues,
+            isLoading = state.isLoading,
+            error = state.error,
+            //agencies = AgenciesPreview().agencies,  // test
+            agencies = state.agencies,            // Api interaction
+            getInitialListAgain = viewModel::loadAgency,
+            onAllButtonClick = viewModel::onAllClick,
+            onFeatureButtonClick = viewModel::onFeatureClick,
+            isAllButtonEnabled = state.isAllButtonEnabled,
+        )
+    }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainAgencyContent(
-    isSearchActive: Boolean,
-    makeSearch: () -> Unit,
-    searchQuery: String,
-    onQueryChange: (String) -> Unit,
-    onQueryClear: () -> Unit,
+    paddingValues: PaddingValues,
     isLoading: Boolean,
     error: String?,
     agencies: List<AgencyEntity>,
@@ -82,111 +105,102 @@ fun MainAgencyContent(
     onFeatureButtonClick: () -> Unit,
     isAllButtonEnabled: Boolean = true
 ) {
-    val bottomScrollBehavior =
-        BottomAppBarDefaults.exitAlwaysScrollBehavior(state = rememberBottomAppBarState())
-    val scrollBehavior =
-        TopAppBarDefaults.enterAlwaysScrollBehavior(state = rememberTopAppBarState())
-    Scaffold(
-        modifier = Modifier.fillMaxSize()
-            .nestedScroll(bottomScrollBehavior.nestedScrollConnection)
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopBarWithSearch(
-                makeSearch = makeSearch,
-                searchQuery = searchQuery,
-                onQueryChange = onQueryChange,
-                onQueryClear = onQueryClear,
-                isSearchActive = isSearchActive,
-                scrollBehavior = scrollBehavior
-            )
-        },
-        bottomBar = {
-            Navbar(
-                onMainPress = {},
-                onHeartPress = {},
-                onProfilePress = {},
-                scrollBehavior = bottomScrollBehavior
-            )
-        },
-        containerColor = ShuttleTheme.colors.background,
-        contentWindowInsets = WindowInsets(),
-    ) { paddingValues ->
-        Box(modifier = Modifier.padding(paddingValues)) {
-            Column {
-                if (isLoading) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxWidth().padding(16.dp)
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-                if (error != null) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.End
-                    ) {
-                        Spacer(Modifier.size(15.dp))
-                        Text(
-                            text = error,
-                            color = MaterialTheme.colorScheme.error,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(8.dp)
-                        )
-                        Button(
-                            onClick = getInitialListAgain,
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = ShuttleTheme.colors.container,
-                                contentColor = ShuttleTheme.colors.onContainer
-                            ),
-                        ) {
-                            Text(
-                                text = stringResource(Res.string.try_again),
-                                fontFamily = ShuttleTheme.typography.bodyBold.fontFamily
-                            )
-                        }
-                    }
-                } else if (!isLoading) {
-                    Spacer(Modifier.size(5.dp))
-                    FiltrationButtons(
-                        onAllButtonClick = onAllButtonClick,
-                        onFeatureButtonClick = onFeatureButtonClick,
-                        isAllButtonEnabled = isAllButtonEnabled
-                    )
-                }
-                Spacer(Modifier.padding(5.dp))
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(minSize = 150.dp),
-                    modifier = Modifier.weight(1f)
+
+    Box(modifier = Modifier.padding(paddingValues)) {
+        Column {
+            if (isLoading) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxWidth().padding(16.dp)
                 ) {
-                    items(
-                        agencies.size,
-                    ) { index ->
-                        AgencyItem(agencies[index])
+                    CircularProgressIndicator()
+                }
+            }
+            if (error != null) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Spacer(Modifier.size(15.dp))
+                    Text(
+                        text = error,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                    Button(
+                        onClick = getInitialListAgain,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = ShuttleTheme.colors.container,
+                            contentColor = ShuttleTheme.colors.onContainer
+                        ),
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.try_again),
+                            fontFamily = ShuttleTheme.typography.bodyBold.fontFamily
+                        )
                     }
+                }
+            } else if (!isLoading) {
+                Spacer(Modifier.size(5.dp))
+                FiltrationButtons(
+                    onAllButtonClick = onAllButtonClick,
+                    onFeatureButtonClick = onFeatureButtonClick,
+                    isAllButtonEnabled = isAllButtonEnabled
+                )
+            }
+            Spacer(Modifier.padding(5.dp))
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 150.dp),
+                modifier = Modifier.weight(1f)
+            ) {
+                items(
+                    agencies.size,
+                ) { index ->
+                    AgencyItem(agencies[index])
                 }
             }
         }
     }
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
 fun MainAgencyPreview() {
-    ShuttleTheme {
-        MainAgencyContent(
-            isSearchActive = false,
-            makeSearch = {},
-            searchQuery = "",
-            onQueryChange = {},
-            onQueryClear = {},
-            isLoading = false,
-            error = "null",
-            agencies = AgenciesPreview().agencies,
-            getInitialListAgain = {},
-            onAllButtonClick = {},
-            onFeatureButtonClick = {},
-            isAllButtonEnabled = true,
-        )
-    }
+    ShuttleTheme{
+        Scaffold(
+            topBar = {
+                TopBarWithSearch(
+                    makeSearch = {},
+                    searchQuery = "",
+                    onQueryChange = {},
+                    onQueryClear = {},
+                    isSearchActive = false,
+                    scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+                )
+            },
+            bottomBar = {
+                Navbar(
+                    onMainPress = {},
+                    onHeartPress = {},
+                    onProfilePress = {},
+                    scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
+                )
+            },
+            containerColor = ShuttleTheme.colors.background,
+        ) { paddingValues ->
+            MainAgencyContent(
+                paddingValues = paddingValues,
+                isLoading = false,
+                error = "null",
+                agencies = AgenciesPreview().agencies,
+                getInitialListAgain = {},
+                onAllButtonClick = {},
+                onFeatureButtonClick = {},
+            )
+        }
+
+}
 }

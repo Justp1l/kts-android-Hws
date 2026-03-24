@@ -31,7 +31,7 @@ fun Navbar(
     onMainPress: () -> Unit,
     onHeartPress: () -> Unit,
     onProfilePress: () -> Unit,
-    scrollBehavior: BottomAppBarScrollBehavior
+    scrollBehavior: BottomAppBarScrollBehavior?
 ) {
     BottomAppBar(
         contentColor = ShuttleTheme.colors.content,

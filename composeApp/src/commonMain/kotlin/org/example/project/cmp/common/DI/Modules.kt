@@ -1,6 +1,6 @@
 package org.example.project.cmp.common.DI
 
-import org.example.project.cmp.feature.onBoard.domain.MainViewModel
+import org.example.project.cmp.feature.onBoard.domain.OnboardingViewModel
 import org.example.project.cmp.feature.onBoard.data.AppStorage
 import org.example.project.cmp.feature.main.agencies.data.database.AgenciesDao
 import org.example.project.cmp.feature.main.agencies.data.database.MainAgencyDatabase
@@ -11,6 +11,7 @@ import org.example.project.cmp.feature.main.agencies.data.AgenciesRepositoryImpl
 import org.example.project.cmp.common.net.ApiInteraction
 import org.example.project.cmp.common.net.createHttpClient
 import org.example.project.cmp.feature.main.agencies.domain.MainAgencyViewModel
+import org.example.project.cmp.feature.main.domain.MainViewModel
 import org.example.project.createDataStore
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.viewModelOf
@@ -20,11 +21,11 @@ import org.koin.dsl.module
 fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
         config?.invoke(this)
-        modules(presentationModule, domainModule, networkingModule, dataModule, mainViewModelModule)
+        modules(domainModule, networkingModule, dataModule, onboardingViewModelModule, mainAgencyModule, loginModule, mainVMModule)
     }
 }
-val mainViewModelModule = module {
-    viewModelOf(::MainViewModel)
+val onboardingViewModelModule = module {
+    viewModelOf(::OnboardingViewModel)
 }
 
 val domainModule = module {
@@ -43,9 +44,15 @@ val dataModule = module {
     single { AppStorage(dataStorage = get()) }
 }
 
-val presentationModule = module {
+val mainAgencyModule = module {
     viewModelOf(::MainAgencyViewModel)
+}
+
+val loginModule = module {
     viewModelOf(::LoginViewModel)
+}
+val mainVMModule = module {
+    viewModelOf(::MainViewModel)
 }
 
 val networkingModule = module {

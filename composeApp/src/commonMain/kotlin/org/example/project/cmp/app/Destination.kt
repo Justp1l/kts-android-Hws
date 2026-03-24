@@ -8,7 +8,8 @@ sealed interface Destination {
 
     @Serializable
     data object Login : Destination
-
+    @Serializable
+    data object FeatureNavigation : Destination
     @Serializable
     data object Main : Destination
     @Serializable
