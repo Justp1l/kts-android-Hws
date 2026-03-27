@@ -1,5 +1,3 @@
-import org.gradle.accessors.dm.LibrariesForLibs
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 
@@ -13,6 +11,7 @@ plugins {
     // Room
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    id("dev.detekt") version "2.0.0-alpha.2"
 }
 
 kotlin {

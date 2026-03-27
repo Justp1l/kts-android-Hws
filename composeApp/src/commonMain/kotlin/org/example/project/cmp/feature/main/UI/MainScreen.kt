@@ -1,7 +1,6 @@
 package org.example.project.cmp.feature.main.UI
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Button
@@ -95,7 +93,7 @@ fun MainContent(
         )
         Spacer(Modifier.size(20.dp))
 
-            Spacer(Modifier.size(25.dp))
+        Spacer(Modifier.size(25.dp))
 
         Spacer(Modifier.size(10.dp))
         RocketElement(onRocketClick = onRocketsPressed)
@@ -103,32 +101,32 @@ fun MainContent(
         AgencyElement(
             onAgenciesClick = onAgenciesPressed
         )
-    Row(
-        modifier = Modifier.fillMaxWidth()
-            .height(180.dp),
-        horizontalArrangement = Arrangement.End
-    ) {
-        Image(
-            painter = painterResource(Res.drawable.astronaut),
-            contentDescription = "Launches image",
-            modifier = Modifier,
-            contentScale = ContentScale.Fit
-        )
-        Button(
-            onClick = onAgenciesPressed,
-            shape = RoundedCornerShape(20),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = ShuttleTheme.colors.content
-            )
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .height(180.dp),
+            horizontalArrangement = Arrangement.End
         ) {
-            Text(
-                text = "Launches",
-                fontSize = 20.sp,
-                fontFamily = ShuttleTheme.typography.bodyMedium.fontFamily,
-                modifier = Modifier.padding(vertical = 60.dp),
+            Image(
+                painter = painterResource(Res.drawable.astronaut),
+                contentDescription = "Launches image",
+                modifier = Modifier,
+                contentScale = ContentScale.Fit
             )
+            Button(
+                onClick = onAgenciesPressed,
+                shape = RoundedCornerShape(20),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = ShuttleTheme.colors.content
+                )
+            ) {
+                Text(
+                    text = "Launches",
+                    fontSize = 20.sp,
+                    fontFamily = ShuttleTheme.typography.bodyMedium.fontFamily,
+                    modifier = Modifier.padding(vertical = 60.dp),
+                )
+            }
         }
-    }
     }
 }
 
