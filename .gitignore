@@ -17,4 +17,7 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
+composeApp/google-services.json
+composeApp/proguard-rules.pro
+my-release-key.jks
 /composeApp/src/commonMain/kotlin/org/example/project/cmp/feature/main/documentationToApi.txt

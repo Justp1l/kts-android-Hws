@@ -1,0 +1,25 @@
+package org.example.spaceShape.cmp.feature.onBoard.UI.pages
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import org.example.spaceShape.theme.ShuttleTheme
+
+@Composable
+fun PagesAggregator(
+    page: Int,
+    onNavigateToLogin: () -> Unit
+) {
+    when (page) {
+        0 -> FirstPage()
+        1 -> FirstPage()
+        2 -> LastPage(onNavigateToLogin)
+    }
+}
+
+@Composable
+@Preview
+fun PreviewP() {
+    ShuttleTheme {
+        PagesAggregator(0, {})
+    }
+}

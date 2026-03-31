@@ -1,5 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
+val localProperties = Properties()
+val localPropertiesFile: File? = rootProject.file("local.properties")
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,7 +14,11 @@ plugins {
     // Room
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    // detekt
     id("dev.detekt") version "2.0.0-alpha.2"
+    // Firebase
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 kotlin {
@@ -40,12 +47,12 @@ kotlin {
             implementation(libs.compose.components.resources)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            //Navigation https://developer.android.com/develop/ui/compose/navigation#kts
+            // Navigation https://developer.android.com/develop/ui/compose/navigation#kts
             implementation(libs.compose.navigation)
-            //Compose UI Preview https://kotlinlang.org/docs/multiplatform/compose-previews.html#preview-setup
+            // Compose UI Preview https://kotlinlang.org/docs/multiplatform/compose-previews.html#preview-setup
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiToolingPreview)
-            //ViewModel https://developer.android.com/kotlin/multiplatform/viewmodel
+            // ViewModel https://developer.android.com/kotlin/multiplatform/viewmodel
             api(libs.androidx.lifecycle.viewmodel)
             // Icons
             implementation(libs.material.icons.core)
@@ -53,7 +60,7 @@ kotlin {
             implementation(libs.coil.compose)
             // Napier https://github.com/AAkira/Napier
             implementation(libs.napier)
-            //Serialization
+            // Serialization
             implementation(libs.kotlinx.serialization.json)
             // Ktor https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
             implementation(libs.ktor.client.core)
@@ -80,6 +87,11 @@ kotlin {
             implementation(libs.coil.network.okHttp)
             // Ktor А надо ли???
             implementation(libs.ktor.client.okhttp)
+            // Firebase
+            implementation(project.dependencies.platform("com.google.firebase:firebase-bom:34.11.0"))
+            implementation(libs.firebase.analytics)
+            //  Crashlytics - Fbs
+            implementation(libs.firebase.crashlytics)
         }
         iosMain.dependencies {
             // Coil
@@ -98,11 +110,11 @@ kotlin {
 }
 
 android {
-    namespace = "org.example.project"
+    namespace = "org.example.spaceShape"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "org.example.project"
+        applicationId = "org.example.spaceShape"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -114,8 +126,22 @@ android {
         }
     }
     buildTypes {
+        signingConfigs {
+            create("release") {
+                keyAlias = localProperties.getProperty("keyAlias")
+                keyPassword = localProperties.getProperty("keyPassword")
+                storeFile = file("my-release-key.jks")
+                storePassword = localProperties.getProperty("keyPassword")
+            }
+        }
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -130,8 +156,6 @@ room {
 
 dependencies {
     implementation(libs.coil.compose)
-//    implementation(libs.coil.network)
-
     implementation(libs.compose.navigation)
 
     debugImplementation(libs.compose.uiTooling)
@@ -142,5 +166,7 @@ dependencies {
             add(it, libs.room.compiler)
         }
     }
+    // https://square.github.io/leakcanary/getting_started/
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.14")
 }
 

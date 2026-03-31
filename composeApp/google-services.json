@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "988335561478",
+    "project_id": "spaceshape-51431",
+    "storage_bucket": "spaceshape-51431.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988335561478:android:0d5dc17c4d03df1b345c87",
+        "android_client_info": {
+          "package_name": "org.example.spaceShape"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXcbelBFdS1XM8R3wOnQ5oqAwdxywUwHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

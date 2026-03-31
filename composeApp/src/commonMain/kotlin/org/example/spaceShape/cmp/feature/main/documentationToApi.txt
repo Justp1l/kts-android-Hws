@@ -1,0 +1,67 @@
+slug - metaRocketName
+window_start - rocketLaunchInUTC
+status {
+    name
+    description
+}
+image{
+    image_url - rocketImage
+}
+rocket{
+    name - rocketName
+}
+probability
+webcast_live - translationBoolean
+mission {
+    name -  missionName
+    description - missionDescription
+}
+agencies {
+    name - companyName
+}
+pad {
+    country {
+       name - countryName
+    }
+}
+map_image - mapImage
+administrator - CEO
+founding_year - foundingYear
+
+
+
+Название и описание миссии - mission {
+                      name -  missionName
+                      description - missionDescription
+                  }
+Дата и время запуска (в UTC и локальном времени) - window_start - rocketLaunchInUTC
+Номер полета - ?
+
+Статус (успешный/неуспешный/предстоящий) - status {
+                                               name
+                                               description
+                                           }
+Ракета (название, с возможностью перехода на экран ракеты):
+    image{
+        image_url - rocketImage
+    }
+    rocket{
+        name - rocketName
+    }
+Patch миссии (большое изображение) -
+    pad {
+        map_image
+    }
+Стартовая площадка -
+    pad {
+       country {
+         name - countryName
+       }
+    }
+
+Полезная нагрузка (payloads) - probability
+Ссылки:
+Статья
+Wikipedia
+YouTube видео (если есть)
+Reddit (discussion)
